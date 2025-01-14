@@ -69,9 +69,15 @@ const QualityManagement = () => {
         {/* Main Content */}
         <div className="p-6 space-y-6 bg-gray-50 flex-1">
          
+        <header className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-800 mb-8">Quality Checking Dashboard</h1>
+          </header>
 
           {/* Quality Check Form */}
           <div className="bg-white p-6 rounded-lg shadow-md">
+
+          
+
             <h2 className="text-lg font-semibold text-gray-700 mb-4">
               {editingId ? 'Edit Quality Check' : 'Add Quality Check'}
             </h2>

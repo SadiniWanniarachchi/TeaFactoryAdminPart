@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from "./Sidebar";
+import TopBar from "./TopBar";  // Import your custom top bar component
 import { FaSearch, FaBell, FaUserCircle, FaEye, FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
 import { FaUsers, FaBoxes, FaMapMarkerAlt } from 'react-icons/fa';
 
@@ -49,34 +50,22 @@ const Supplier = () => {
     <div className="flex flex-col h-screen">
       <div className="flex flex-1">
         <Sidebar />
-        <div className="flex-1 bg-gradient-to-b from-[#f5f5f5] to-[#e5e5e5]">
-          <header className="bg-white shadow-md sticky top-0 z-10">
-            <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-              <div className="flex items-center bg-gray-100 px-4 py-2 rounded-full shadow-sm w-full max-w-md">
-                <FaSearch className="text-gray-400 mr-2" />
-                <input type="text" placeholder="Search suppliers..." className="bg-transparent outline-none text-gray-700 w-full" />
-              </div>
-              <div className="flex items-center space-x-6">
-                <div className="relative cursor-pointer">
-                  <FaBell className="text-gray-500 text-2xl hover:text-gray-800 transition" />
-                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">3</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <FaUserCircle className="text-gray-500 text-3xl cursor-pointer" />
-                  <span className="text-gray-700 font-medium hidden sm:inline">Admin</span>
-                </div>
-              </div>
-            </div>
-          </header>
+        <div className="flex-1 bg-gray-50">
+          {/* Use the TopBar component here */}
+          <TopBar />
 
-          <div className="flex justify-end px-6 mt-7">
+          <div className="p-6 space-y-6 bg-gray-50 flex-1 overflow-y-auto">
+          <header className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-800">Supplier Dashboard</h1>
             <button
               className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md hover:bg-[#2d921e] transition-transform hover:scale-105 flex items-center"
               onClick={() => setShowModal(true)}
             >
               <FaPlus className="mr-2" /> Add Supplier
             </button>
-          </div>
+            </header>
+          
+        </div>
 
           <div className="container mx-auto px-6 py-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">

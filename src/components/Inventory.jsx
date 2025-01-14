@@ -104,7 +104,7 @@ const pieChartData = {
         {/* Main Dashboard Content */}
         <div className="p-6 space-y-6 bg-gray-50 flex-1 overflow-y-auto">
           {/* Header */}
-          <header className="flex justify-between items-center">
+          <header className="flex justify-between items-center mb-8">
             <h1 className="text-2xl font-bold text-gray-800">Inventory Dashboard</h1>
             <button
               className="flex items-center px-4 py-2 bg-[#21501a] hover:bg-[#2d921e] text-white rounded-md shadow-md"

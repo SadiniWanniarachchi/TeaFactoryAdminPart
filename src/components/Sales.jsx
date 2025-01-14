@@ -86,7 +86,15 @@ const pieChartData = {
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Topbar />
+
+        
+
         <main className="p-6 bg-gray-100 flex-1">
+
+        <header className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-800 mb-8">Sales Dashboard</h1>
+          </header>
+          
           {/* Add/Edit Form */}
           <div className="bg-white p-6 rounded-lg shadow-md mb-6">
             <h2 className="text-xl font-semibold text-gray-700 mb-4">

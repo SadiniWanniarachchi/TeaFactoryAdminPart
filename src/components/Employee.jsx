@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { FaEdit, FaTrash, FaSearch, FaUserCircle, FaBell, FaPlus } from "react-icons/fa";
+import { FaEdit, FaTrash, FaSearch, FaUserCircle, FaPlus } from "react-icons/fa";
 import Sidebar from "./Sidebar";
+import Topbar from "./Topbar";  // Import Topbar Component
 
 const Employee = () => {
   // Employee State
@@ -64,40 +65,21 @@ const Employee = () => {
     <div className="flex min-h-screen">
       <Sidebar />
 
-      <div className="flex-1 bg-gradient-to-b from-[#f5f5f5] to-[#e5e5e5]">
-        <header className="bg-white shadow-md sticky top-0 z-10">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div className="flex items-center bg-gray-100 px-4 py-2 rounded-full shadow-sm w-full max-w-md">
-              <FaSearch className="text-gray-400 mr-2" />
-              <input
-                type="text"
-                placeholder="Search employees..."
-                className="bg-transparent outline-none text-gray-700 w-full"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+      <div className="flex-1 bg-gray-50">
+        {/* Use the Topbar Component */}
+        <Topbar />
 
-            <div className="flex items-center space-x-6">
-              <div className="relative cursor-pointer">
-                <FaBell className="text-gray-500 text-2xl hover:text-gray-800 transition" />
-                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">3</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <FaUserCircle className="text-gray-500 text-3xl cursor-pointer" />
-                <span className="text-gray-700 font-medium hidden sm:inline">Admin</span>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <div className="flex justify-end px-6 mt-7">
+        <div className="p-6 space-y-6 bg-gray-50 flex-1 overflow-y-auto">
+          <header className="flex justify-between items-center bg-gray-50">
+            <h1 className="text-2xl font-bold text-gray-800">Employee Dashboard</h1>
           <button
             className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md hover:bg-[#2d921e] transition-transform hover:scale-105 flex items-center"
             onClick={() => setIsModalOpen(true)}
           >
             <FaPlus className="mr-2" /> Add Employee
           </button>
+        </header>
+          
         </div>
 
         <div className="p-6 max-w-7xl mx-auto">
