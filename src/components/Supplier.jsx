@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts"; // For charts
+import { Card, CardHeader, CardBody, CardFooter } from "@material-tailwind/react"; // For cards (optional)
 
 const API_URL = "http://localhost:5000/api/Supplier";
 
@@ -70,8 +72,14 @@ const Supplier = () => {
     }
   };
 
+  // Mock data for the chart (replace with real data from your API)
+  const chartData = suppliers.map((supplier) => ({
+    name: supplier.name,
+    orders: supplier.orders,
+  }));
+
   return (
-    <div className="flex h-screen">
+    <div className="flex">
       <Sidebar />
       <div className="flex-1 bg-gray-50">
         <TopBar />
@@ -85,6 +93,56 @@ const Supplier = () => {
               Add Supplier
             </button>
           </header>
+
+          {/* Informational Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <Card className="bg-white shadow-md rounded-lg">
+              <CardHeader className="bg-[#21501a] text-white p-4 rounded-t-lg">
+                <h2 className="text-lg font-semibold">Total Suppliers</h2>
+              </CardHeader>
+              <CardBody className="p-4">
+                <p className="text-2xl font-bold">{suppliers.length}</p>
+              </CardBody>
+            </Card>
+
+            <Card className="bg-white shadow-md rounded-lg">
+              <CardHeader className="bg-[#21501a] text-white p-4 rounded-t-lg">
+                <h2 className="text-lg font-semibold">Active Suppliers</h2>
+              </CardHeader>
+              <CardBody className="p-4">
+                <p className="text-2xl font-bold">
+                  {suppliers.filter((supplier) => supplier.status === "Active").length}
+                </p>
+              </CardBody>
+            </Card>
+
+            <Card className="bg-white shadow-md rounded-lg">
+              <CardHeader className="bg-[#21501a] text-white p-4 rounded-t-lg">
+                <h2 className="text-lg font-semibold">Total Orders</h2>
+              </CardHeader>
+              <CardBody className="p-4">
+                <p className="text-2xl font-bold">
+                  {suppliers.reduce((acc, supplier) => acc + parseInt(supplier.orders || 0), 0)}
+                </p>
+              </CardBody>
+            </Card>
+          </div>
+
+          {/* Chart Section */}
+          <div className="mt-6 bg-white shadow-md rounded-lg p-6">
+            <h2 className="text-xl font-semibold mb-4">Supplier Orders Overview</h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={chartData}>
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="orders" fill="#21501a" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Supplier Table */}
           <div className="mt-6">
             <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
               <thead>
@@ -105,9 +163,9 @@ const Supplier = () => {
                     <td className="p-3">{supplier.location}</td>
                     <td className="p-3">{supplier.status}</td>
                     <td className="p-3">{supplier.orders}</td>
-                    <td className="p-3 flex space-x-2">
-                      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => handleEdit(supplier)}><FaEdit /></button>
-                      <button className="bg-red-500 text-white p-2 rounded" onClick={() => handleDelete(supplier._id)}><FaTrash /></button>
+                    <td className="p-3 px-7 flex space-x-2">
+                      <button className="text-blue-500 p-2" onClick={() => handleEdit(supplier)}><FaEdit /></button>
+                      <button className="text-red-500 p-2" onClick={() => handleDelete(supplier._id)}><FaTrash /></button>
                     </td>
                   </tr>
                 ))}
@@ -115,6 +173,8 @@ const Supplier = () => {
             </table>
           </div>
         </div>
+
+        {/* Modal (unchanged) */}
         {showModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg shadow-lg w-96">

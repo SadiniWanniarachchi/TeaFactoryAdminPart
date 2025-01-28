@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Import axios for API calls
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { FaBox, FaChartBar, FaClipboardList, FaExclamationTriangle, FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
@@ -9,23 +10,28 @@ import Topbar from './Topbar';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Inventory = () => {
-  // Initial Inventory Data
-  const initialInventoryData = [
-    { id: 1, name: 'Green Tea', stock: 120, threshold: 50 },
-    { id: 2, name: 'Black Tea', stock: 80, threshold: 30 },
-    { id: 3, name: 'Oolong Tea', stock: 50, threshold: 20 },
-    { id: 4, name: 'Herbal Tea', stock: 40, threshold: 15 },
-    { id: 5, name: 'White Tea', stock: 20, threshold: 10 },
-  ];
-
   // State Management
-  const [inventoryData, setInventoryData] = useState(initialInventoryData);
+  const [inventoryData, setInventoryData] = useState([]);
   const [newItem, setNewItem] = useState({ id: '', name: '', stock: '', threshold: '' });
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  // Fetch inventory data from the backend
+  useEffect(() => {
+    fetchInventoryData();
+  }, []);
+
+  const fetchInventoryData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/inventory');
+      setInventoryData(response.data);
+    } catch (error) {
+      console.error('Error fetching inventory data:', error);
+    }
+  };
+
   // Pie Chart Data
-const pieChartData = {
+  const pieChartData = {
     labels: inventoryData.map((item) => item.name),
     datasets: [
       {
@@ -47,7 +53,7 @@ const pieChartData = {
       },
     ],
   };
-  
+
   // Low Stock Items
   const lowStockItems = inventoryData.filter((item) => item.stock < item.threshold);
 
@@ -58,36 +64,39 @@ const pieChartData = {
     setShowModal(true);
   };
 
-  const handleSaveItem = () => {
+  const handleSaveItem = async () => {
     if (newItem.name && newItem.stock && newItem.threshold) {
-      if (isEditing) {
-        // Update existing item
-        setInventoryData(
-          inventoryData.map((item) =>
-            item.id === newItem.id ? newItem : item
-          )
-        );
-      } else {
-        // Add new item
-        setInventoryData([
-          ...inventoryData,
-          { ...newItem, id: Date.now() },
-        ]);
+      try {
+        if (isEditing) {
+          // Update existing item
+          await axios.put(`http://localhost:5000/api/inventory/${newItem._id}`, newItem);
+        } else {
+          // Add new item
+          await axios.post('http://localhost:5000/api/inventory', newItem);
+        }
+        fetchInventoryData(); // Refresh data after adding/updating
+        setShowModal(false);
+      } catch (error) {
+        console.error('Error saving item:', error);
       }
-      setShowModal(false);
     }
   };
 
   const handleEditItem = (id) => {
-    const itemToEdit = inventoryData.find((item) => item.id === id);
+    const itemToEdit = inventoryData.find((item) => item._id === id);
     setNewItem(itemToEdit);
     setIsEditing(true);
     setShowModal(true);
   };
 
-  const handleDeleteItem = (id) => {
+  const handleDeleteItem = async (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
-      setInventoryData(inventoryData.filter((item) => item.id !== id));
+      try {
+        await axios.delete(`http://localhost:5000/api/inventory/${id}`);
+        fetchInventoryData(); // Refresh data after deletion
+      } catch (error) {
+        console.error('Error deleting item:', error);
+      }
     }
   };
 
@@ -110,7 +119,7 @@ const pieChartData = {
               className="flex items-center px-4 py-2 bg-[#21501a] hover:bg-[#2d921e] text-white rounded-md shadow-md"
               onClick={handleAddItem}
             >
-              <FaPlus className="mr-2" /> Add Item
+             Add Item
             </button>
           </header>
 
@@ -169,20 +178,20 @@ const pieChartData = {
                 </thead>
                 <tbody>
                   {inventoryData.map((item) => (
-                    <tr key={item.id} className="hover:bg-gray-50">
+                    <tr key={item._id} className="hover:bg-gray-50">
                       <td className="border border-gray-300 p-2">{item.name}</td>
                       <td className="border border-gray-300 p-2">{item.stock}</td>
                       <td className="border border-gray-300 p-2">{item.threshold}</td>
-                      <td className="border border-gray-300 p-2 flex space-x-2">
+                      <td className="border border-gray-300 py-4 px-7 flex space-x-7">
                         <button
                           className="text-blue-500"
-                          onClick={() => handleEditItem(item.id)}
+                          onClick={() => handleEditItem(item._id)}
                         >
                           <FaEdit />
                         </button>
                         <button
                           className="text-red-500"
-                          onClick={() => handleDeleteItem(item.id)}
+                          onClick={() => handleDeleteItem(item._id)}
                         >
                           <FaTrash />
                         </button>
