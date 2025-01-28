@@ -1,58 +1,94 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaEdit, FaTrash, FaSearch, FaUserCircle, FaPlus } from "react-icons/fa";
 import Sidebar from "./Sidebar";
-import Topbar from "./Topbar";  // Import Topbar Component
+import Topbar from "./Topbar";
+
+const API_URL = "http://localhost:5000/api/Employee";
 
 const Employee = () => {
-  // Employee State
-  const [employees, setEmployees] = useState([
-    { id: 1, name: "Vishwa Jayasinghe", empid: "E9023", role: "Manager", contact: "vishwa@gmail.com" },
-    { id: 2, name: "Namali Fernando", empid: "E5478", role: "Assistant", contact: "namali@gmail.com" },
-    { id: 3, name: "Amal Perera", empid: "E2345", role: "Supervisor", contact: "amal@gmail.com" },
-    { id: 4, name: "Keerthi Jayawardena", empid: "E0098", role: "Supervisor", contact: "keerthi@gmail.com" },
-    { id: 5, name: "Sudarshani Elapatha", empid: "E7834", role: "Labour", contact: "sudarshani@gmail.com" },
-    { id: 6, name: "Nikitha Harischandra", empid: "E3333", role: "Labour", contact: "nikitha@gmail.com" },
-  ]);
-
+  // State Management
+  const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [formState, setFormState] = useState({ name: "", empid: "", role: "", contact: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
 
+  // Fetch Employees on Mount
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  const fetchEmployees = async () => {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    setEmployees(data);
+  };
+
   // Handle Input Change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormState({ ...formState, [name]: value });
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  // Handle Add or Edit Employee
-  const handleSave = () => {
+  // Handle Employee Edit
+  const handleEdit = (id) => {
+    const employeeToEdit = employees.find(emp => emp.id === id);
+    if (employeeToEdit) {
+      setFormState({
+        name: employeeToEdit.name,
+        empid: employeeToEdit.empid,
+        role: employeeToEdit.role,
+        contact: employeeToEdit.contact
+      });
+      setEditId(id);
+      setIsEditing(true);
+      setIsModalOpen(true);
+    }
+  };
+
+  // Handle Save (Add / Update Employee)
+  const handleSave = async () => {
     if (isEditing) {
-      setEmployees(employees.map(emp => (emp.id === editId ? { ...emp, ...formState } : emp)));
-      setIsEditing(false);
-      setEditId(null);
+      try {
+        const response = await fetch(`${API_URL}/${editId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formState),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to update employee");
+        }
+
+        await fetchEmployees(); // Refresh list
+        setIsEditing(false);
+        setEditId(null);
+      } catch (error) {
+        console.error("Error updating employee:", error);
+      }
     } else {
-      setEmployees([...employees, { id: Date.now(), ...formState }]);
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formState),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to add employee");
+        }
+
+        await fetchEmployees(); // Refresh list
+      } catch (error) {
+        console.error("Error adding employee:", error);
+      }
     }
     setFormState({ name: "", empid: "", role: "", contact: "" });
     setIsModalOpen(false);
-  };
-
-  // Handle Edit
-  const handleEdit = (id) => {
-    const employee = employees.find(emp => emp.id === id);
-    setFormState(employee);
-    setIsEditing(true);
-    setEditId(id);
-    setIsModalOpen(true);
-  };
-
-  // Handle Delete
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this employee?")) {
-      setEmployees(employees.filter(emp => emp.id !== id));
-    }
   };
 
   // Filter Employees
@@ -60,6 +96,7 @@ const Employee = () => {
     emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     emp.role.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
 
   return (
     <div className="flex min-h-screen">
