@@ -150,7 +150,7 @@ const Employee = () => {
                 setIsModalOpen(true);
               }}
             >
-              <FaPlus className="mr-2" /> Add Employee
+             Add Employee
             </button>
           </header>
         </div>
@@ -222,7 +222,7 @@ const Employee = () => {
               />
               <input
                 type="email"
-                placeholder="Contact"
+                placeholder="Email"
                 name="contact"
                 value={formState.contact}
                 onChange={handleInputChange}
