@@ -1,106 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import { Pie } from 'react-chartjs-2';
-import Sidebar from './Sidebar';
-import Topbar from './Topbar';
+import Sidebar from './Sidebar'; // Replace with the actual path to your Sidebar component
+import Topbar from './Topbar';   // Replace with the actual path to your Topbar component
 
 const Sales = () => {
-  const [sales, setSales] = useState([]);
+  const [sales, setSales] = useState([
+    { id: 1, product: 'Green Tea', quantity: 20, amount: 200, date: '2025-01-01' },
+    { id: 2, product: 'Black Tea', quantity: 15, amount: 150, date: '2025-01-05' },
+    { id: 3, product: 'Herbal Tea', quantity: 10, amount: 100, date: '2025-01-10' },
+  ]);
+
   const [formState, setFormState] = useState({ product: '', quantity: '', amount: '', date: '' });
   const [editing, setEditing] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  // Fetch all sales on component mount
-  useEffect(() => {
-    fetchSales();
-  }, []);
-
-  // Fetch sales from the backend
-  const fetchSales = async () => {
-    try {
-      const response = await fetch('http://localhost:5000//api/Sale');
-      const data = await response.json();
-      setSales(data);
-    } catch (error) {
-      console.error('Error fetching sales:', error);
-    }
-  };
-
-  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
   };
 
-  // Handle form submission (add or update)
-  const handleAddOrUpdate = async () => {
+  const handleAddOrUpdate = () => {
     if (!formState.product || formState.quantity <= 0 || formState.amount <= 0 || !formState.date) {
       alert('Please enter valid product details. Quantity, amount, and date are required.');
       return;
     }
-  
-    try {
-      const url = editing ? `http://localhost:5000/api/sales/${editId}` : 'http://localhost:5000/api/sales';
-      const method = editing ? 'PUT' : 'POST';
-  
-      console.log('Sending request to:', url);
-      console.log('Request body:', formState);
-  
-      const response = await fetch(url, {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formState),
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-  
-      const result = await response.json();
-      console.log('Response from server:', result);
-  
-      if (editing) {
-        setSales(sales.map((sale) => (sale._id === editId ? result : sale)));
-        setEditing(false);
-        setEditId(null);
-      } else {
-        setSales([...sales, result]);
-      }
-  
-      setFormState({ product: '', quantity: '', amount: '', date: '' });
-    } catch (error) {
-      console.error('Error saving sale:', error);
-      alert('Failed to save sale. Check the console for details.');
+
+    if (editing) {
+      setSales(
+        sales.map((sale) =>
+          sale.id === editId ? { ...sale, ...formState, id: editId } : sale
+        )
+      );
+      setEditing(false);
+      setEditId(null);
+    } else {
+      setSales([...sales, { id: Date.now(), ...formState }]);
     }
+    setFormState({ product: '', quantity: '', amount: '', date: '' });
   };
 
-  // Handle edit
   const handleEdit = (id) => {
-    const sale = sales.find((sale) => sale._id === id);
+    const sale = sales.find((sale) => sale.id === id);
     setFormState({
       product: sale.product,
       quantity: sale.quantity,
       amount: sale.amount,
-      date: sale.date.split('T')[0], // Format date for input field
+      date: sale.date,
     });
     setEditing(true);
     setEditId(id);
   };
 
-  // Handle delete
-  const handleDelete = async (id) => {
-    try {
-      await fetch(`http://localhost:5000//api/Sale/${id}`, {
-        method: 'DELETE',
-      });
-      setSales(sales.filter((sale) => sale._id !== id));
-    } catch (error) {
-      console.error('Error deleting sale:', error);
-    }
+  const handleDelete = (id) => {
+    setSales(sales.filter((sale) => sale.id !== id));
   };
 
   // Pie chart data
-  const pieChartData = {
+const pieChartData = {
     labels: sales.map((sale) => sale.product),
     datasets: [
       {
@@ -122,6 +79,7 @@ const Sales = () => {
       },
     ],
   };
+  
 
   return (
     <div className="flex">
@@ -129,11 +87,13 @@ const Sales = () => {
       <div className="flex-1 flex flex-col">
         <Topbar />
 
-        <main className="p-6 bg-gray-100 flex-1">
-          <header className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">Sales Dashboard</h1>
-          </header>
 
+        <main className="p-6 bg-gray-100 flex-1">
+
+        <header className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8">Sales Dashboard</h1>
+          </header>
+          
           {/* Add/Edit Form */}
           <div className="bg-white p-6 rounded-lg shadow-md mb-6">
             <h2 className="text-xl font-semibold text-gray-700 mb-4">
@@ -235,22 +195,22 @@ const Sales = () => {
               <tbody className="text-black text-sm font-semibold">
                 {sales.map((sale) => (
                   <tr
-                    key={sale._id}
+                    key={sale.id}
                     className="border-b border-gray-200 hover:bg-gray-100"
                   >
                     <td className="py-3 px-6">{sale.product}</td>
                     <td className="py-3 px-6">{sale.quantity}</td>
                     <td className="py-3 px-6">${sale.amount}</td>
-                    <td className="py-3 px-6">{new Date(sale.date).toLocaleDateString()}</td>
+                    <td className="py-3 px-6">{sale.date}</td>
                     <td className="py-3 px-6 flex space-x-3">
                       <button
-                        onClick={() => handleEdit(sale._id)}
+                        onClick={() => handleEdit(sale.id)}
                         className="text-blue-500 hover:underline flex items-center"
                       >
                         <FaEdit className="mr-2" />
                       </button>
                       <button
-                        onClick={() => handleDelete(sale._id)}
+                        onClick={() => handleDelete(sale.id)}
                         className="text-red-500 hover:underline flex items-center"
                       >
                         <FaTrash className="mr-2" />
