@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import { FaUsers, FaIndustry, FaBox, FaCheckCircle, FaChartLine, FaQuestionCircle, FaCog } from "react-icons/fa";
+import { FaUsers, FaIndustry, FaBox, FaCheckCircle, FaChartLine, FaQuestionCircle, FaCog, FaBoxOpen } from "react-icons/fa";
 
 const Sidebar = () => {
   return (
-    <div className="w-64 bg-[#21501a] text-white flex flex-col h-screen sticky top-0 shadow-lg">
+    <div className="w-64 bg-[#9ce39e] text-black font-semibold flex flex-col h-screen sticky top-0 shadow-lg">
       {/* Dashboard Title */}
       <Link
         to="/dashboard"
-        className="text-2xl font-bold text-center py-5 border-b border-white hover:text-[#2d921e] transition-all duration-300"
+        className="text-2xl font-bold text-center py-5 border-b border-black transition-all duration-300"
       >
         Dashboard
       </Link>
@@ -17,7 +17,7 @@ const Sidebar = () => {
         {/* Sidebar Links */}
         <Link
           to="/employee"
-          className="flex items-center space-x-3 text-lg hover:bg-[#2d921e] p-4 rounded-lg transition-all duration-300"
+          className="flex items-center space-x-3 text-lg hover:bg-[#44bb5c] p-4 rounded-lg transition-all duration-300"
         >
           <FaUsers className="text-xl" />
           <span>Employee Management</span>
@@ -25,7 +25,7 @@ const Sidebar = () => {
 
         <Link
           to="/supplier"
-          className="flex items-center space-x-3 text-lg hover:bg-[#2d921e] p-4 rounded-lg transition-all duration-300"
+          className="flex items-center space-x-3 text-lg hover:bg-[#44bb5c] p-4 rounded-lg transition-all duration-300"
         >
           <FaIndustry className="text-xl" />
           <span>Supplier Management</span>
@@ -33,7 +33,7 @@ const Sidebar = () => {
 
         <Link
           to="/inventory"
-          className="flex items-center space-x-3 text-lg hover:bg-[#2d921e] p-4 rounded-lg transition-all duration-300"
+          className="flex items-center space-x-3 text-lg hover:bg-[#44bb5c] p-4 rounded-lg transition-all duration-300"
         >
           <FaBox className="text-xl" />
           <span>Inventory Management</span>
@@ -41,7 +41,7 @@ const Sidebar = () => {
 
         <Link
           to="/qa"
-          className="flex items-center space-x-3 text-lg hover:bg-[#2d921e] p-4 rounded-lg transition-all duration-300"
+          className="flex items-center space-x-3 text-lg hover:bg-[#44bb5c] p-4 rounded-lg transition-all duration-300"
         >
           <FaCheckCircle className="text-xl" />
           <span>Quality Management</span>
@@ -49,15 +49,23 @@ const Sidebar = () => {
 
         <Link
           to="/sales"
-          className="flex items-center space-x-3 text-lg hover:bg-[#2d921e] p-4 rounded-lg transition-all duration-300"
+          className="flex items-center space-x-3 text-lg hover:bg-[#44bb5c] p-4 rounded-lg transition-all duration-300"
         >
           <FaChartLine className="text-xl" />
           <span>Sales Management</span>
         </Link>
 
         <Link
+          to="/addproduct"
+          className="flex items-center space-x-3 text-lg hover:bg-[#44bb5c] p-4 rounded-lg transition-all duration-300"
+        >
+         <FaBoxOpen className="text-xl" /> {/* Updated Icon */}
+         <span>Add Products</span>
+        </Link>
+
+        <Link
           to="/help"
-          className="flex items-center space-x-3 text-lg hover:bg-[#2d921e] p-4 rounded-lg transition-all duration-300"
+          className="flex items-center space-x-3 text-lg hover:bg-[#44bb5c] p-4 rounded-lg transition-all duration-300"
         >
           <FaQuestionCircle className="text-xl" />
           <span>Help</span>
@@ -65,7 +73,7 @@ const Sidebar = () => {
 
         <Link
           to="/settings"
-          className="flex items-center space-x-3 text-lg hover:bg-[#2d921e] p-4 rounded-lg transition-all duration-300"
+          className="flex items-center space-x-3 text-lg hover:bg-[#44bb5c] p-4 rounded-lg transition-all duration-300"
         >
           <FaCog className="text-xl" />
           <span>Settings</span>

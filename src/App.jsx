@@ -9,6 +9,7 @@ import QA from "./components/QA"; // Add QA component
 import Sales from "./components/Sales"; // Add Sales component
 import Help from "./components/Help"; // Add Help component
 import Settings from "./components/Settings"; // Add Settings component
+import AddProduct from "./components/AddProduct";
 
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/qa" element={<QA />} />
         <Route path="/sales" element={<Sales />} />
+        <Route path="/addproduct" element={<AddProduct />} /> 
         <Route path="/help" element={<Help />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>

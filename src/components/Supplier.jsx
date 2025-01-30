@@ -85,7 +85,7 @@ const Supplier = () => {
         <TopBar />
         <div className="p-6">
           <header className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Supplier Dashboard</h1>
+            <h1 className="text-3xl font-bold">Supplier Dashboard</h1>
             <button
               className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md hover:bg-[#2d921e]"
               onClick={() => { setShowModal(true); setIsEditing(false); setFormValues({ name: "", supplierID: "", location: "", status: "", orders: "" }); }}

@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaPlus, FaEdit, FaTrashAlt, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 
 const QualityManagement = () => {
-  // Sample Quality Check Data
-  const initialQualityChecks = [
-    { id: 1, batchNumber: 'GT001', inspectionDate: '2025-01-10', status: 'Passed' },
-    { id: 2, batchNumber: 'BT002', inspectionDate: '2025-01-11', status: 'Failed' },
-  ];
-
-  const [qualityChecks, setQualityChecks] = useState(initialQualityChecks);
+  const [qualityChecks, setQualityChecks] = useState([]);
   const [formData, setFormData] = useState({ batchNumber: '', inspectionDate: '', status: 'Passed' });
   const [editingId, setEditingId] = useState(null);
+
+  // Fetch all quality checks on component mount
+  useEffect(() => {
+    fetchQualityChecks();
+  }, []);
+
+  const fetchQualityChecks = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/qualitychecks');
+      const data = await response.json();
+      setQualityChecks(data);
+    } catch (err) {
+      console.error('Error fetching quality checks:', err);
+    }
+  };
 
   // Get Today's Date in YYYY-MM-DD Format
   const getTodayDate = () => {
@@ -27,33 +36,49 @@ const QualityManagement = () => {
   };
 
   // Handle Form Submission
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (editingId) {
-      // Update existing record
-      setQualityChecks(
-        qualityChecks.map((check) =>
-          check.id === editingId ? { ...formData, id: editingId } : check
-        )
-      );
-      setEditingId(null);
-    } else {
-      // Add new record
-      setQualityChecks([...qualityChecks, { ...formData, id: Date.now() }]);
+    try {
+      if (editingId) {
+        // Update existing record
+        await fetch(`http://localhost:5000/api/qualitychecks/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        setEditingId(null);
+      } else {
+        // Add new record
+        await fetch('http://localhost:5000/api/qualitychecks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+      }
+      setFormData({ batchNumber: '', inspectionDate: '', status: 'Passed' });
+      fetchQualityChecks(); // Refresh the list
+    } catch (err) {
+      console.error('Error submitting form:', err);
     }
-    setFormData({ batchNumber: '', inspectionDate: '', status: 'Passed' });
   };
 
   // Handle Edit
   const handleEdit = (id) => {
-    const checkToEdit = qualityChecks.find((check) => check.id === id);
+    const checkToEdit = qualityChecks.find((check) => check._id === id);
     setFormData(checkToEdit);
     setEditingId(id);
   };
 
   // Handle Delete
-  const handleDelete = (id) => {
-    setQualityChecks(qualityChecks.filter((check) => check.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`http://localhost:5000/api/qualitychecks/${id}`, {
+        method: 'DELETE',
+      });
+      fetchQualityChecks(); // Refresh the list
+    } catch (err) {
+      console.error('Error deleting quality check:', err);
+    }
   };
 
   return (
@@ -68,16 +93,12 @@ const QualityManagement = () => {
 
         {/* Main Content */}
         <div className="p-6 space-y-6 bg-gray-50 flex-1">
-         
-        <header className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-8">Quality Checking Dashboard</h1>
+          <header className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold text-gray-800 mb-8">Quality Checking Dashboard</h1>
           </header>
 
           {/* Quality Check Form */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-
-          
-
             <h2 className="text-lg font-semibold text-gray-700 mb-4">
               {editingId ? 'Edit Quality Check' : 'Add Quality Check'}
             </h2>
@@ -140,9 +161,9 @@ const QualityManagement = () => {
               </thead>
               <tbody>
                 {qualityChecks.map((check) => (
-                  <tr key={check.id} className="hover:bg-gray-50">
+                  <tr key={check._id} className="hover:bg-gray-50">
                     <td className="border border-gray-300 p-2">{check.batchNumber}</td>
-                    <td className="border border-gray-300 p-2">{check.inspectionDate}</td>
+                    <td className="border border-gray-300 p-2">{new Date(check.inspectionDate).toLocaleDateString()}</td>
                     <td
                       className={`border border-gray-300 p-2 ${
                         check.status === 'Passed' ? 'text-green-500' : 'text-red-500'
@@ -157,13 +178,13 @@ const QualityManagement = () => {
                     </td>
                     <td className="border border-gray-300 p-2 flex space-x-2">
                       <button
-                        onClick={() => handleEdit(check.id)}
+                        onClick={() => handleEdit(check._id)}
                         className="text-blue-500 hover:text-blue-700"
                       >
                         <FaEdit />
                       </button>
                       <button
-                        onClick={() => handleDelete(check.id)}
+                        onClick={() => handleDelete(check._id)}
                         className="text-red-500 hover:text-red-700"
                       >
                         <FaTrashAlt />

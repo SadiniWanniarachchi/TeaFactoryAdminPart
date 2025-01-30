@@ -139,7 +139,7 @@ const Employee = () => {
 
         <div className="p-6 space-y-6 bg-gray-50 flex-1 overflow-y-auto">
           <header className="flex justify-between items-center bg-gray-50">
-            <h1 className="text-2xl font-bold text-gray-800">
+            <h1 className="text-3xl font-bold text-gray-800">
               Employee Dashboard
             </h1>
             <button
