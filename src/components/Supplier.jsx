@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
-import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts"; // For charts
-import { Card, CardHeader, CardBody, CardFooter } from "@material-tailwind/react"; // For cards (optional)
+import { FaPlus, FaEdit, FaTrash, FaWarehouse, FaBoxOpen } from "react-icons/fa"; // Import icons for cards
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts"; // For charts
+import { BsPersonFillCheck } from "react-icons/bs";
 
 const API_URL = "http://localhost:5000/api/Supplier";
 
@@ -81,112 +81,174 @@ const Supplier = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="flex-1 bg-gray-50">
+      <div className="flex-1 bg-white">
         <TopBar />
         <div className="p-6">
-          <header className="flex justify-between items-center">
+          <header className="flex justify-between items-center mt-6">
             <h1 className="text-3xl font-bold">Supplier Dashboard</h1>
             <button
-              className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md hover:bg-[#2d921e]"
-              onClick={() => { setShowModal(true); setIsEditing(false); setFormValues({ name: "", supplierID: "", location: "", status: "", orders: "" }); }}
+              className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
+              onClick={() => {
+                setShowModal(true);
+                setIsEditing(false);
+                setFormValues({ name: "", supplierID: "", location: "", status: "", orders: "" });
+              }}
             >
               Add Supplier
             </button>
           </header>
 
-          {/* Informational Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-            <Card className="bg-white shadow-md rounded-lg">
-              <CardHeader className="bg-[#21501a] text-white p-4 rounded-t-lg">
-                <h2 className="text-lg font-semibold">Total Suppliers</h2>
-              </CardHeader>
-              <CardBody className="p-4">
-                <p className="text-2xl font-bold">{suppliers.length}</p>
-              </CardBody>
-            </Card>
+          {/* Supplier Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10 mb-10">
+            {/* Total Suppliers */}
+            <div className="bg-white shadow-md rounded-lg border border-gray-200 p-6 flex items-center space-x-4 hover:shadow-lg transition-all duration-300">
+              <FaWarehouse className="text-3xl text-green-900" />
+              <div>
+                <p className="text-lg font-semibold text-gray-700">Total Suppliers</p>
+                <p className="text-2xl font-bold text-gray-800">{suppliers.length}</p>
+              </div>
+            </div>
 
-            <Card className="bg-white shadow-md rounded-lg">
-              <CardHeader className="bg-[#21501a] text-white p-4 rounded-t-lg">
-                <h2 className="text-lg font-semibold">Active Suppliers</h2>
-              </CardHeader>
-              <CardBody className="p-4">
-                <p className="text-2xl font-bold">
+            {/* Active Suppliers */}
+            <div className="bg-white shadow-md rounded-lg border border-gray-200 p-6 flex items-center space-x-4 hover:shadow-lg transition-all duration-300">
+              <BsPersonFillCheck className="text-4xl text-green-900" />
+              <div>
+                <p className="text-lg font-semibold text-gray-700">Active Suppliers</p>
+                <p className="text-2xl font-bold text-gray-800">
                   {suppliers.filter((supplier) => supplier.status === "Active").length}
                 </p>
-              </CardBody>
-            </Card>
+              </div>
+            </div>
 
-            <Card className="bg-white shadow-md rounded-lg">
-              <CardHeader className="bg-[#21501a] text-white p-4 rounded-t-lg">
-                <h2 className="text-lg font-semibold">Total Orders</h2>
-              </CardHeader>
-              <CardBody className="p-4">
-                <p className="text-2xl font-bold">
+            {/* Total Orders */}
+            <div className="bg-white shadow-md rounded-lg border border-gray-200 p-6 flex items-center space-x-4 hover:shadow-lg transition-all duration-300">
+              <FaBoxOpen className="text-3xl text-green-900" />
+              <div>
+                <p className="text-lg font-semibold text-gray-700">Total Orders</p>
+                <p className="text-2xl font-bold text-gray-800">
                   {suppliers.reduce((acc, supplier) => acc + parseInt(supplier.orders || 0), 0)}
                 </p>
-              </CardBody>
-            </Card>
+              </div>
+            </div>
           </div>
 
           {/* Chart Section */}
-          <div className="mt-6 bg-white shadow-md rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Supplier Orders Overview</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={chartData}>
-                <XAxis dataKey="name" />
-                <YAxis />
+          <div className="bg-white shadow-xl rounded-lg p-20 mb-20">
+            <h2 className="font-bold text-xl text-black mb-10">Supplier Orders Overview</h2>
+            <ResponsiveContainer width="100%" height={350}>
+              <BarChart data={chartData} barCategoryGap={30} width={650}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="name" tick={{ fill: "#6B7280", fontSize: 14 }} />
+                <YAxis tick={{ fill: "#6B7280", fontSize: 12 }} axisLine={false} />
                 <Tooltip />
-                <Legend />
-                <Bar dataKey="orders" fill="#21501a" />
+                <Bar dataKey="orders" fill="#4A774A" barSize={50} radius={[10, 10, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
           {/* Supplier Table */}
-          <div className="mt-6">
-            <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="p-3">Name</th>
-                  <th className="p-3">Supplier ID</th>
-                  <th className="p-3">Location</th>
-                  <th className="p-3">Status</th>
-                  <th className="p-3">Orders</th>
-                  <th className="p-3">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {suppliers.map((supplier) => (
-                  <tr key={supplier._id} className="border-t">
-                    <td className="p-3">{supplier.name}</td>
-                    <td className="p-3">{supplier.supplierID}</td>
-                    <td className="p-3">{supplier.location}</td>
-                    <td className="p-3">{supplier.status}</td>
-                    <td className="p-3">{supplier.orders}</td>
-                    <td className="p-3 px-7 flex space-x-2">
-                      <button className="text-blue-500 p-2" onClick={() => handleEdit(supplier)}><FaEdit /></button>
-                      <button className="text-red-500 p-2" onClick={() => handleDelete(supplier._id)}><FaTrash /></button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Modal (unchanged) */}
+          <div className="mt-6 overflow-x-auto">
+  <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <thead>
+      <tr className="bg-gray-100">
+        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Name</th>
+        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Supplier ID</th>
+        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Location</th>
+        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Status</th>
+        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Orders</th>
+        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {suppliers.map((supplier) => (
+        <tr key={supplier._id} className="border-t border-gray-200">
+          <td className="px-4 py-4 text-sm text-gray-800">{supplier.name}</td>
+          <td className="px-4 py-4 text-sm text-gray-800">{supplier.supplierID}</td>
+          <td className="px-4 py-4 text-sm text-gray-800">{supplier.location}</td>
+          <td className="px-4 py-4 text-sm text-gray-800">
+            <span
+              className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                supplier.status === "Active"
+                  ? "bg-green-200 text-green-800"
+                  : "bg-red-200 text-red-800"
+              }`}
+            >
+              {supplier.status}
+            </span>
+          </td>
+          <td className="px-4 py-4 text-sm text-gray-800">{supplier.orders}</td>
+          <td className="px-4 py-4 flex justify-start space-x-3">
+            <button
+              className="text-blue-700 p-2 rounded-md transition duration-200"
+              onClick={() => handleEdit(supplier)}
+            >
+              <FaEdit className="w-5 h-5" />
+            </button>
+            <button
+              className="text-red-800 p-2 rounded-md transition duration-200"
+              onClick={() => handleDelete(supplier._id)}
+            >
+              <FaTrash className="w-5 h-5" />
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  </div>
+  </div>
+        {/* Modal */}
         {showModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <div className="bg-white p-6 rounded-lg shadow-lg sm:w-full md:w-96">
               <h2 className="text-xl font-semibold mb-4">{isEditing ? "Edit Supplier" : "Add Supplier"}</h2>
-              <input type="text" name="name" value={formValues.name} onChange={handleInputChange} placeholder="Name" className="w-full mb-3 p-2 border rounded" />
-              <input type="text" name="supplierID" value={formValues.supplierID} onChange={handleInputChange} placeholder="Supplier ID" className="w-full mb-3 p-2 border rounded" />
-              <input type="text" name="location" value={formValues.location} onChange={handleInputChange} placeholder="Location" className="w-full mb-3 p-2 border rounded" />
-              <input type="text" name="status" value={formValues.status} onChange={handleInputChange} placeholder="Status" className="w-full mb-3 p-2 border rounded" />
-              <input type="number" name="orders" value={formValues.orders} onChange={handleInputChange} placeholder="Orders" className="w-full mb-3 p-2 border rounded" />
+              <input
+                type="text"
+                name="name"
+                value={formValues.name}
+                onChange={handleInputChange}
+                placeholder="Name"
+                className="w-full mb-3 p-2 border rounded"
+              />
+              <input
+                type="text"
+                name="supplierID"
+                value={formValues.supplierID}
+                onChange={handleInputChange}
+                placeholder="Supplier ID"
+                className="w-full mb-3 p-2 border rounded"
+              />
+              <input
+                type="text"
+                name="location"
+                value={formValues.location}
+                onChange={handleInputChange}
+                placeholder="Location"
+                className="w-full mb-3 p-2 border rounded"
+              />
+              <input
+                type="text"
+                name="status"
+                value={formValues.status}
+                onChange={handleInputChange}
+                placeholder="Status"
+                className="w-full mb-3 p-2 border rounded"
+              />
+              <input
+                type="number"
+                name="orders"
+                value={formValues.orders}
+                onChange={handleInputChange}
+                placeholder="Orders"
+                className="w-full mb-3 p-2 border rounded"
+              />
               <div className="flex justify-between">
-                <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setShowModal(false)}>Cancel</button>
-                <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={handleSave}>Save</button>
+                <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setShowModal(false)}>
+                  Cancel
+                </button>
+                <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={handleSave}>
+                  Save
+                </button>
               </div>
             </div>
           </div>
