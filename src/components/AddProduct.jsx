@@ -42,6 +42,8 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log("Form Data:", formData);
     
     const formDataObj = new FormData();
     formDataObj.append("name", formData.name);
@@ -61,7 +63,11 @@ const AddProduct = () => {
         }
       );
       
-      if (!response.ok) throw new Error("Failed to save product");
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('error response: ', error);
+        throw new Error("Failed to save product");
+      }
       
       const product = await response.json();
       setProducts(editId ? products.map(p => (p._id === editId ? product : p)) : [...products, product]);
