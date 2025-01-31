@@ -9,7 +9,7 @@ const RecentPayments = () => {
   ];
 
   return (
-    <div className="bg-white shadow-xl rounded-lg p-6">
+    <div className="bg-white shadow-xl rounded-lg p-6 font-kulim">
       <h2 className="font-bold text-lg text-black mb-6">Recent Payments</h2>
       <ul>
         {payments.map((payment, index) => (

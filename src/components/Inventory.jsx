@@ -101,12 +101,12 @@ const Inventory = () => {
   };
 
   return (
-    <div className="flex bg-white">
+    <div className="flex bg-white font-kulim">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col font-kulim">
         {/* Topbar */}
         <Topbar />
 
@@ -116,7 +116,7 @@ const Inventory = () => {
           <header className="flex justify-between items-center mb-10 mt-8">
             <h1 className="text-3xl font-bold text-gray-800">Inventory Dashboard</h1>
             <button
-              className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
+              className="bg-green-900 text-white px-6 py-3 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
               onClick={handleAddItem}
             >
              Add Item
@@ -126,14 +126,14 @@ const Inventory = () => {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-xl flex items-center">
-              <FaBox className="text-[#21501a] text-3xl mr-4" />
+              <FaBox className="text-green-900 text-3xl mr-4" />
               <div>
                 <h2 className="text-lg font-medium text-gray-700">Total Products</h2>
                 <p className="text-2xl font-bold">{inventoryData.length}</p>
               </div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-xl flex items-center">
-              <FaClipboardList className="text-[#21501a] text-3xl mr-4" />
+              <FaClipboardList className="text-green-900 text-3xl mr-4" />
               <div>
                 <h2 className="text-lg font-medium text-gray-700">Total Stock</h2>
                 <p className="text-2xl font-bold">
@@ -151,7 +151,7 @@ const Inventory = () => {
           </div>
 
           {/* Inventory Summary */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-24">
             {/* Inventory Chart */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-lg font-semibold text-gray-700 mb-4 flex items-center">
@@ -238,7 +238,7 @@ const Inventory = () => {
                       Cancel
                     </button>
                     <button
-                      className="px-4 py-2 bg-[#21501a] text-white rounded-md"
+                      className="px-4 py-2 bg-green-900 text-white rounded-md"
                       onClick={handleSaveItem}
                     >
                       {isEditing ? 'Update' : 'Save'}

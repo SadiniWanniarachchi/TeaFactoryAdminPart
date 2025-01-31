@@ -131,7 +131,7 @@ const Employee = () => {
   );
 
   return (
-    <div className="flex">
+    <div className="flex font-kulim">
       <Sidebar />
 
       <div className="flex-1 bg-white">
@@ -143,7 +143,7 @@ const Employee = () => {
               Employee Dashboard
             </h1>
             <button
-              className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
+              className="bg-green-900 text-white px-6 py-3 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
               onClick={() => {
                 setFormState({ name: "", empid: "", role: "", contact: "" });
                 setIsEditing(false);
@@ -232,13 +232,13 @@ const Employee = () => {
               <div className="flex justify-between">
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                  className="bg-gray-500 text-white px-4 py-2 rounded"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSave}
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                  className="bg-green-900 text-white px-4 py-2 rounded"
                 >
                   Save
                 </button>

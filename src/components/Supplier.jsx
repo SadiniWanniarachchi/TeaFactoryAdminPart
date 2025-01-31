@@ -79,15 +79,15 @@ const Supplier = () => {
   }));
 
   return (
-    <div className="flex">
+    <div className="flex font-kulim">
       <Sidebar />
       <div className="flex-1 bg-white">
         <TopBar />
         <div className="p-6">
-          <header className="flex justify-between items-center mt-6">
+          <header className="flex justify-between items-center mt-6 font-kulim">
             <h1 className="text-3xl font-bold">Supplier Dashboard</h1>
             <button
-              className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
+              className="bg-green-900 text-white px-6 py-3 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
               onClick={() => {
                 setShowModal(true);
                 setIsEditing(false);
@@ -151,12 +151,12 @@ const Supplier = () => {
   <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
     <thead>
       <tr className="bg-gray-100">
-        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Name</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Supplier ID</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Location</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Status</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Orders</th>
-        <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Actions</th>
+        <th className="px-4 py-3 text-left text-sm font-bold text-black">Name</th>
+        <th className="px-4 py-3 text-left text-sm font-bold text-black">Supplier ID</th>
+        <th className="px-4 py-3 text-left text-sm font-bold text-black">Location</th>
+        <th className="px-4 py-3 text-left text-sm font-bold text-black">Status</th>
+        <th className="px-4 py-3 text-left text-sm font-bold text-black">Orders</th>
+        <th className="px-4 py-3 text-left text-sm font-bold text-black">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -246,7 +246,7 @@ const Supplier = () => {
                 <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
-                <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={handleSave}>
+                <button className="bg-green-900 text-white px-4 py-2 rounded" onClick={handleSave}>
                   Save
                 </button>
               </div>

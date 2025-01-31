@@ -11,7 +11,7 @@ const data = [
 
 const DashboardCards = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-14">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-14 font-kulim">
       {data.map((item, index) => (
         <div
           key={index}

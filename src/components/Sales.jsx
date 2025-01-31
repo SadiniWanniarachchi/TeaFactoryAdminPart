@@ -82,16 +82,16 @@ const pieChartData = {
   
 
   return (
-    <div className="flex">
+    <div className="flex font-kulim">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Topbar />
 
 
-        <main className="p-6 bg-gray-100 flex-1">
+        <main className="p-6 bg-white flex-1 font-kulim">
 
         <header className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800 mb-8">Sales Dashboard</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mt-5 mb-8">Sales Dashboard</h1>
           </header>
           
           {/* Add/Edit Form */}
@@ -173,7 +173,7 @@ const pieChartData = {
             </div>
             <button
               onClick={handleAddOrUpdate}
-              className="mt-6 bg-[#21501a] text-white px-6 py-2 rounded-lg hover:bg-[#2d921e]"
+              className="bg-green-900 text-white px-6 py-3 rounded-lg shadow-md mt-9 transition-transform hover:scale-105 flex items-center"
             >
               {editing ? 'Update Sale' : 'Add Sale'}
             </button>
@@ -184,7 +184,7 @@ const pieChartData = {
             <h2 className="text-xl font-semibold text-gray-700 mb-4">Sales List</h2>
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <tr className="bg-gray-200 text-black text-base leading-normal">
                   <th className="py-3 px-6">Product</th>
                   <th className="py-3 px-6">Quantity</th>
                   <th className="py-3 px-6">Price</th>
@@ -205,13 +205,13 @@ const pieChartData = {
                     <td className="py-3 px-6 flex space-x-3">
                       <button
                         onClick={() => handleEdit(sale.id)}
-                        className="text-blue-500 hover:underline flex items-center"
+                        className="text-blue-800 hover:underline flex items-center"
                       >
                         <FaEdit className="mr-2" />
                       </button>
                       <button
                         onClick={() => handleDelete(sale.id)}
-                        className="text-red-500 hover:underline flex items-center"
+                        className="text-red-900 hover:underline flex items-center"
                       >
                         <FaTrash className="mr-2" />
                       </button>

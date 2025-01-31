@@ -82,7 +82,7 @@ const QualityManagement = () => {
   };
 
   return (
-    <div className="flex bg-gray-100">
+    <div className="flex bg-white font-kulim">
       {/* Sidebar */}
       <Sidebar />
 
@@ -92,13 +92,13 @@ const QualityManagement = () => {
         <Topbar />
 
         {/* Main Content */}
-        <div className="p-6 space-y-6 bg-gray-50 flex-1">
+        <div className="p-6 space-y-6 bg-white flex-1 font-kulim">
           <header className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">Quality Checking Dashboard</h1>
+            <h1 className="text-3xl font-bold text-gray-800 mt-8 mb-8">Quality Checking Dashboard</h1>
           </header>
 
           {/* Quality Check Form */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-2xl">
             <h2 className="text-lg font-semibold text-gray-700 mb-4">
               {editingId ? 'Edit Quality Check' : 'Add Quality Check'}
             </h2>
@@ -129,6 +129,7 @@ const QualityManagement = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Status</label>
                 <select
+                type=""
                   name="status"
                   value={formData.status}
                   onChange={handleInputChange}
@@ -140,7 +141,7 @@ const QualityManagement = () => {
               </div>
               <button
                 type="submit"
-                className="bg-[#21501a] text-white px-4 py-2 rounded-md hover:bg-[#2d921e]"
+                className="bg-green-900 text-white px-3 py-3 mt-10 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
               >
                 {editingId ? 'Update' : 'Add'} Quality Check
               </button>
@@ -149,7 +150,7 @@ const QualityManagement = () => {
 
           {/* Quality Check List */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-lg font-semibold text-gray-700 mb-4">Quality Check Records</h2>
+            <h2 className="text-lg font-semibold text-black mb-4">Quality Check Records</h2>
             <table className="w-full table-auto border-collapse border border-gray-300">
               <thead>
                 <tr className="bg-gray-100">
@@ -162,11 +163,11 @@ const QualityManagement = () => {
               <tbody>
                 {qualityChecks.map((check) => (
                   <tr key={check._id} className="hover:bg-gray-50">
-                    <td className="border border-gray-300 p-2">{check.batchNumber}</td>
-                    <td className="border border-gray-300 p-2">{new Date(check.inspectionDate).toLocaleDateString()}</td>
+                    <td className="border border-gray-300 p-2 text-center">{check.batchNumber}</td>
+                    <td className="border border-gray-300 p-2 text-center">{new Date(check.inspectionDate).toLocaleDateString()}</td>
                     <td
-                      className={`border border-gray-300 p-2 ${
-                        check.status === 'Passed' ? 'text-green-500' : 'text-red-500'
+                      className={`border border-gray-300 p-2 text-center" ${
+                        check.status === 'Passed' ? 'text-green-900' : 'text-red-900'
                       }`}
                     >
                       {check.status === 'Passed' ? (
@@ -176,16 +177,16 @@ const QualityManagement = () => {
                       )}
                       {check.status}
                     </td>
-                    <td className="border border-gray-300 p-2 flex space-x-2">
+                    <td className="border border-gray-300 p-2 flex space-x-10 text-center">
                       <button
                         onClick={() => handleEdit(check._id)}
-                        className="text-blue-500 hover:text-blue-700"
+                        className="text-blue-800 "
                       >
                         <FaEdit />
                       </button>
                       <button
                         onClick={() => handleDelete(check._id)}
-                        className="text-red-500 hover:text-red-700"
+                        className="text-red-900"
                       >
                         <FaTrashAlt />
                       </button>

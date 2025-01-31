@@ -43,8 +43,8 @@ const Topbar = () => {
   }, []);
 
   return (
-    <header className="bg-white sticky top-0 z-10">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center mt-9">
+    <header className="bg-white sticky top-0 z-10 font-kulim">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center mt-9 font-kulim">
         {/* Search Bar */}
         <div className="flex items-center bg-gray-100 px-4 py-3 rounded-full shadow-sm w-full max-w-md">
           <FaSearch className="text-gray-400 mr-2" />

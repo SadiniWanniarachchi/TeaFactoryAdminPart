@@ -50,7 +50,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex font-kulim">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Topbar />

@@ -8,7 +8,7 @@ const NewEmployee = () => {
   ];
 
   return (
-    <div className="bg-white shadow-xl rounded-lg p-6">
+    <div className="bg-white shadow-xl rounded-lg p-6 font-kulim">
       <h2 className="font-bold text-lg text-black mb-6">New Employees</h2>
       <ul>
         {employee.map((employee, index) => (

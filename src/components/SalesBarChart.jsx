@@ -48,7 +48,7 @@ const SalesBarChart = () => {
   };
 
   return (
-    <div className="bg-white shadow-2xl rounded-lg p-6">
+    <div className="bg-white shadow-2xl rounded-lg p-6 font-kulim">
       <h2 className="font-bold text-xl text-black mb-4">Tea Product Sales</h2>
       <ResponsiveContainer width="100%" height={350}>
         <BarChart data={data} barCategoryGap={30} width={650}>

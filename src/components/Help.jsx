@@ -16,19 +16,19 @@ const Help = () => {
   );
 
   return (
-    <div className="flex">
+    <div className="flex font-kulim">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Topbar />
-        <main className="p-6 bg-gray-100 flex-1">
+        <main className="p-6 bg-white flex-1 font-kulim">
           <header className="mb-6">
             <h1 className="text-3xl font-bold text-gray-800 flex items-center">
-              <FaQuestionCircle className="mr-3 text-[#21501a]" /> Help & Support
+              <FaQuestionCircle className="mr-3 text-green-900" /> Help & Support
             </h1>
           </header>
 
           {/* Search Section */}
-          <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+          <div className="bg-white p-6 rounded-lg shadow-2xl mb-10">
             <h2 className="text-xl font-semibold text-gray-700 mb-4">
               Search for Help
             </h2>
@@ -41,7 +41,7 @@ const Help = () => {
                 className="p-3 border rounded w-full"
               />
               <button
-                className="bg-[#21501a] text-white px-6 py-3 rounded-lg hover:bg-[#2d921e]"
+                className="bg-green-900 text-white px-6 py-3 rounded-lg"
                 onClick={() => console.log('Searching for:', searchQuery)}
               >
                 <FaSearch />
@@ -50,7 +50,7 @@ const Help = () => {
           </div>
 
           {/* FAQ Section */}
-          <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+          <div className="bg-white p-6 rounded-lg shadow-2xl mb-10">
             <h2 className="text-xl font-semibold text-gray-700 mb-4">FAQs</h2>
             {filteredFaqs.length > 0 ? (
               filteredFaqs.map((faq) => (
@@ -65,14 +65,14 @@ const Help = () => {
           </div>
 
           {/* Contact Section */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">Contact Us</h2>
+          <div className="bg-white p-6 rounded-lg shadow-2xl">
+            <h2 className="text-xl font-semibold text-gray-700 mb-10">Contact Us</h2>
             <div className="flex items-center mb-4">
-              <FaPhone className="text-[#21501a] mr-3" />
+              <FaPhone className="text-green-900 mr-3" />
               <span className="text-gray-700">+9476 534 239</span>
             </div>
             <div className="flex items-center mb-4">
-              <FaEnvelope className="text-[#21501a] mr-3" />
+              <FaEnvelope className="text-green-900 mr-3" />
               <span className="text-gray-700">harvestbrew@gmail.com</span>
             </div>
             <p className="text-black">
