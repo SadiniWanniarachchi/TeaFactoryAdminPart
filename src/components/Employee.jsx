@@ -134,16 +134,16 @@ const Employee = () => {
     <div className="flex">
       <Sidebar />
 
-      <div className="flex-1 bg-gray-50">
+      <div className="flex-1 bg-white">
         <Topbar />
 
-        <div className="p-6 space-y-6 bg-gray-50 flex-1 overflow-y-auto">
-          <header className="flex justify-between items-center bg-gray-50">
+        <div className="p-6 space-y bg-white flex-1 overflow-y-auto">
+          <header className="flex justify-between items-center bg-white mt-5 mb-6">
             <h1 className="text-3xl font-bold text-gray-800">
               Employee Dashboard
             </h1>
             <button
-              className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md hover:bg-[#2d921e] transition-transform hover:scale-105 flex items-center"
+              className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
               onClick={() => {
                 setFormState({ name: "", empid: "", role: "", contact: "" });
                 setIsEditing(false);
@@ -160,9 +160,9 @@ const Employee = () => {
             {filteredEmployees.map((employee) => (
               <div
                 key={employee.id}
-                className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300"
+                className="bg-gray-100 shadow-xl rounded-lg p-6 transition duration-300"
               >
-                <FaUserCircle className="w-20 h-20 text-gray-500 mx-auto mb-4" />
+                <FaUserCircle className="w-20 h-20 text-green-900 mx-auto mb-4" />
                 <h2 className="text-xl font-semibold text-gray-800 text-center">
                   {employee.name}
                 </h2>

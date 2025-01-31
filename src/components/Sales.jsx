@@ -140,13 +140,13 @@ const pieChartData = {
                   htmlFor="amount"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Amount
+                  Price
                 </label>
                 <input
                   type="number"
                   name="amount"
                   id="amount"
-                  placeholder="Enter amount"
+                  placeholder="Enter Price"
                   value={formState.amount}
                   onChange={handleInputChange}
                   className="p-3 border rounded w-full"
@@ -187,7 +187,7 @@ const pieChartData = {
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                   <th className="py-3 px-6">Product</th>
                   <th className="py-3 px-6">Quantity</th>
-                  <th className="py-3 px-6">Amount</th>
+                  <th className="py-3 px-6">Price</th>
                   <th className="py-3 px-6">Date</th>
                   <th className="py-3 px-6">Actions</th>
                 </tr>

@@ -43,10 +43,10 @@ const Topbar = () => {
   }, []);
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-10">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <header className="bg-white sticky top-0 z-10">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center mt-9">
         {/* Search Bar */}
-        <div className="flex items-center bg-gray-100 px-4 py-2 rounded-full shadow-sm w-full max-w-md">
+        <div className="flex items-center bg-gray-100 px-4 py-3 rounded-full shadow-sm w-full max-w-md">
           <FaSearch className="text-gray-400 mr-2" />
           <input
             type="text"
@@ -63,7 +63,7 @@ const Topbar = () => {
             ref={notificationRef}
           >
             <FaBell
-              className="text-gray-500 text-2xl hover:text-gray-800 transition"
+              className="text-green-900 text-2xl hover:text-gray-800 transition"
               onClick={toggleNotifications}
             />
             <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">
@@ -100,7 +100,7 @@ const Topbar = () => {
             className="relative flex items-center space-x-3"
             ref={dropdownRef}
           >
-            <FaUserCircle className="text-gray-500 text-3xl cursor-pointer" />
+            <FaUserCircle className="text-green-900 text-3xl cursor-pointer" />
             <div
               className="flex items-center cursor-pointer space-x-1"
               onClick={toggleDropdown}
@@ -111,7 +111,7 @@ const Topbar = () => {
               <FiChevronDown className="text-gray-500" />
             </div>
             {showDropdown && (
-              <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-20">
+              <div className="absolute right-0 mt-24 w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-20">
                 <ul className="divide-y divide-gray-200">
                   <li
                     className="p-4 flex items-center text-sm hover:bg-gray-100 cursor-pointer"
