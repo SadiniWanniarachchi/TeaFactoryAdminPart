@@ -101,7 +101,7 @@ const Inventory = () => {
   };
 
   return (
-    <div className="flex bg-gray-100">
+    <div className="flex bg-white">
       {/* Sidebar */}
       <Sidebar />
 
@@ -111,12 +111,12 @@ const Inventory = () => {
         <Topbar />
 
         {/* Main Dashboard Content */}
-        <div className="p-6 space-y-6 bg-gray-50 flex-1 overflow-y-auto">
+        <div className="p-6 space-y-10 bg-white flex-1 overflow-y-auto">
           {/* Header */}
-          <header className="flex justify-between items-center mb-8">
+          <header className="flex justify-between items-center mb-10 mt-8">
             <h1 className="text-3xl font-bold text-gray-800">Inventory Dashboard</h1>
             <button
-              className="flex items-center px-4 py-2 bg-[#21501a] hover:bg-[#2d921e] text-white rounded-md shadow-md"
+              className="bg-[#21501a] text-white px-6 py-3 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
               onClick={handleAddItem}
             >
              Add Item
@@ -125,15 +125,15 @@ const Inventory = () => {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-md flex items-center">
+            <div className="bg-white p-6 rounded-lg shadow-xl flex items-center">
               <FaBox className="text-[#21501a] text-3xl mr-4" />
               <div>
                 <h2 className="text-lg font-medium text-gray-700">Total Products</h2>
                 <p className="text-2xl font-bold">{inventoryData.length}</p>
               </div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md flex items-center">
-              <FaClipboardList className="text-blue-500 text-3xl mr-4" />
+            <div className="bg-white p-6 rounded-lg shadow-xl flex items-center">
+              <FaClipboardList className="text-[#21501a] text-3xl mr-4" />
               <div>
                 <h2 className="text-lg font-medium text-gray-700">Total Stock</h2>
                 <p className="text-2xl font-bold">
@@ -141,7 +141,7 @@ const Inventory = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md flex items-center">
+            <div className="bg-white p-6 rounded-lg shadow-xl flex items-center">
               <FaExclamationTriangle className="text-red-500 text-3xl mr-4" />
               <div>
                 <h2 className="text-lg font-medium text-gray-700">Low Stock Items</h2>
@@ -184,13 +184,13 @@ const Inventory = () => {
                       <td className="border border-gray-300 p-2">{item.threshold}</td>
                       <td className="border border-gray-300 py-4 px-7 flex space-x-7">
                         <button
-                          className="text-blue-500"
+                          className="text-blue-800"
                           onClick={() => handleEditItem(item._id)}
                         >
                           <FaEdit />
                         </button>
                         <button
-                          className="text-red-500"
+                          className="text-red-900"
                           onClick={() => handleDeleteItem(item._id)}
                         >
                           <FaTrash />
