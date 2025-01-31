@@ -95,7 +95,7 @@ const AddProduct = () => {
       <div className="flex-1 flex flex-col">
         <Topbar />
         <div className="p-6 flex-1">
-          <header className="flex justify-between items-center mb-8 mt-8">
+          <header className="flex justify-between items-center">
             <h1 className="text-3xl font-bold text-gray-800">Product Dashboard</h1>
             <button onClick={() => setFormVisible(!isFormVisible)} className="bg-green-900 text-white px-6 py-3 rounded-lg shadow-md mt-9 transition-transform hover:scale-105 flex items-center">
               {isFormVisible ? "Cancel" : "Add Product"}
@@ -108,7 +108,16 @@ const AddProduct = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <input type="text" name="name" placeholder="Product Name" value={formData.name} onChange={handleChange} className="w-full p-3 border rounded-md" required />
                 <input type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} className="w-full p-3 border rounded-md" required />
-                <input type="number" name="price" placeholder="Price (USD)" value={formData.price} onChange={handleChange} className="w-full p-3 border rounded-md" required />
+                <input 
+                 type="number" 
+                 name="price" 
+                 placeholder="Price (USD)" 
+                 value={formData.price} 
+                 onChange={handleChange} 
+                 className="w-full p-3 border rounded-md" 
+                 min="0"  // Ensures the price cannot be negative
+                 required 
+                />
                 <textarea name="description" placeholder="Product Description" value={formData.description} onChange={handleChange} className="w-full p-3 border rounded-md" rows="3" required></textarea>
                 <label className="block w-full border-2 border-dashed p-6 text-center cursor-pointer rounded-md">
                   <input type="file" className="hidden" onChange={handleFileChange} accept="image/*" />

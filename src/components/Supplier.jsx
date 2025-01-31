@@ -30,6 +30,9 @@ const Supplier = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === "name" && !/^[A-Za-z\s]*$/.test(value)) {
+      return; // Prevents updating state if invalid characters are entered
+    }
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -91,7 +94,7 @@ const Supplier = () => {
               onClick={() => {
                 setShowModal(true);
                 setIsEditing(false);
-                setFormValues({ name: "", supplierID: "", location: "", status: "", orders: "" });
+                setFormValues({ name: "", supplierID: "", location: "", status: "" });
               }}
             >
               Add Supplier
@@ -155,7 +158,6 @@ const Supplier = () => {
         <th className="px-4 py-3 text-left text-sm font-bold text-black">Supplier ID</th>
         <th className="px-4 py-3 text-left text-sm font-bold text-black">Location</th>
         <th className="px-4 py-3 text-left text-sm font-bold text-black">Status</th>
-        <th className="px-4 py-3 text-left text-sm font-bold text-black">Orders</th>
         <th className="px-4 py-3 text-left text-sm font-bold text-black">Actions</th>
       </tr>
     </thead>
@@ -176,7 +178,6 @@ const Supplier = () => {
               {supplier.status}
             </span>
           </td>
-          <td className="px-4 py-4 text-sm text-gray-800">{supplier.orders}</td>
           <td className="px-4 py-4 flex justify-start space-x-3">
             <button
               className="text-blue-700 p-2 rounded-md transition duration-200"
@@ -226,22 +227,17 @@ const Supplier = () => {
                 placeholder="Location"
                 className="w-full mb-3 p-2 border rounded"
               />
-              <input
-                type="text"
-                name="status"
-                value={formValues.status}
-                onChange={handleInputChange}
-                placeholder="Status"
-                className="w-full mb-3 p-2 border rounded"
-              />
-              <input
-                type="number"
-                name="orders"
-                value={formValues.orders}
-                onChange={handleInputChange}
-                placeholder="Orders"
-                className="w-full mb-3 p-2 border rounded"
-              />
+              <select
+                 name="status"
+                 value={formValues.status}
+                 onChange={handleInputChange}
+                 className="w-full mb-3 p-2 border rounded"
+              >
+              <option value="">Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              </select>
+              
               <div className="flex justify-between">
                 <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setShowModal(false)}>
                   Cancel

@@ -132,7 +132,7 @@ const pieChartData = {
                   value={formState.quantity}
                   onChange={handleInputChange}
                   className="p-3 border rounded w-full"
-                  min="1"
+                  min="0"
                 />
               </div>
               <div>
@@ -150,7 +150,7 @@ const pieChartData = {
                   value={formState.amount}
                   onChange={handleInputChange}
                   className="p-3 border rounded w-full"
-                  min="1"
+                  min="0"
                 />
               </div>
               <div>

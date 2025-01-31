@@ -108,6 +108,7 @@ const QualityManagement = () => {
                 <input
                   type="text"
                   name="batchNumber"
+                  placeholder="Batch Number"
                   value={formData.batchNumber}
                   onChange={handleInputChange}
                   required
@@ -119,6 +120,7 @@ const QualityManagement = () => {
                 <input
                   type="date"
                   name="inspectionDate"
+                  placeholder="Inspection Date"
                   value={formData.inspectionDate}
                   onChange={handleInputChange}
                   required
@@ -129,14 +131,14 @@ const QualityManagement = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Status</label>
                 <select
-                type=""
-                  name="status"
-                  value={formData.status}
-                  onChange={handleInputChange}
+                   name="status"
+                   value={formData.status}
+                   onChange={handleInputChange}
+                   placeholder="Status"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                >
-                  <option value="Passed">Passed</option>
-                  <option value="Failed">Failed</option>
+                 >
+                <option value="Passed">Passed</option>
+                <option value="Failed">Failed</option>
                 </select>
               </div>
               <button

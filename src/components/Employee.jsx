@@ -38,6 +38,14 @@ const Employee = () => {
   // Handle Input Change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === "name" && !/^[A-Za-z\s]*$/.test(value)) {
+      return; // Prevents updating state if invalid characters are entered
+    }
+
+    if (name === "contact" && !value.includes("@")) {
+      return; // Prevent updating state if "@" is missing
+    }
+    
     setFormState((prevState) => ({
       ...prevState,
       [name]: value,

@@ -222,6 +222,8 @@ const Inventory = () => {
                     value={newItem.stock}
                     onChange={(e) => setNewItem({ ...newItem, stock: e.target.value })}
                     className="w-full px-4 py-2 border rounded-md"
+                    min="0"  // Ensures the price cannot be negative
+                    required 
                   />
                   <input
                     type="number"
@@ -229,6 +231,8 @@ const Inventory = () => {
                     value={newItem.threshold}
                     onChange={(e) => setNewItem({ ...newItem, threshold: e.target.value })}
                     className="w-full px-4 py-2 border rounded-md"
+                    min="0"  // Ensures the price cannot be negative
+                    required 
                   />
                   <div className="flex justify-end space-x-2">
                     <button
