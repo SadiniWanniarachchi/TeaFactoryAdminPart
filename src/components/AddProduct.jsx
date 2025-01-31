@@ -91,7 +91,7 @@ const AddProduct = () => {
 
   return (
     <div className="flex bg-white font-kulim">
-      <Sidebar />
+      <Sidebar activated="product"/>
       <div className="flex-1 flex flex-col">
         <Topbar />
         <div className="p-6 flex-1">

@@ -232,8 +232,10 @@ const Supplier = () => {
                  value={formValues.status}
                  onChange={handleInputChange}
                  className="w-full mb-3 p-2 border rounded"
+                 //{...formValues.status =/ "bg-green-200 text-green-800" : "bg-red-200 text-red-800"}
+                 placeholder="Status"
               >
-              <option value="">Status</option>
+              <option value="">Select Status</option>
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
               </select>
