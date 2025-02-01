@@ -130,7 +130,7 @@ const Sales = () => {
 
   return (
     <div className="flex font-kulim">
-      <Sidebar />
+      <Sidebar activated="sale" />
       <div className="flex-1 flex flex-col">
         <Topbar />
 

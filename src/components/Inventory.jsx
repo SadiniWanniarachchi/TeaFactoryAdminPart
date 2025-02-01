@@ -103,7 +103,7 @@ const Inventory = () => {
   return (
     <div className="flex bg-white font-kulim">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar activated="inventory" />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col font-kulim">
@@ -119,7 +119,7 @@ const Inventory = () => {
               className="bg-green-900 text-white px-6 py-3 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center"
               onClick={handleAddItem}
             >
-             Add Item
+              Add Item
             </button>
           </header>
 
@@ -223,7 +223,7 @@ const Inventory = () => {
                     onChange={(e) => setNewItem({ ...newItem, stock: e.target.value })}
                     className="w-full px-4 py-2 border rounded-md"
                     min="0"  // Ensures the price cannot be negative
-                    required 
+                    required
                   />
                   <input
                     type="number"
@@ -232,7 +232,7 @@ const Inventory = () => {
                     onChange={(e) => setNewItem({ ...newItem, threshold: e.target.value })}
                     className="w-full px-4 py-2 border rounded-md"
                     min="0"  // Ensures the price cannot be negative
-                    required 
+                    required
                   />
                   <div className="flex justify-end space-x-2">
                     <button

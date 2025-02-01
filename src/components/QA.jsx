@@ -84,7 +84,7 @@ const QualityManagement = () => {
   return (
     <div className="flex bg-white font-kulim">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar activated="qa" />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
@@ -131,14 +131,14 @@ const QualityManagement = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Status</label>
                 <select
-                   name="status"
-                   value={formData.status}
-                   onChange={handleInputChange}
-                   placeholder="Status"
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                  placeholder="Status"
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                 >
-                <option value="Passed">Passed</option>
-                <option value="Failed">Failed</option>
+                >
+                  <option value="Passed">Passed</option>
+                  <option value="Failed">Failed</option>
                 </select>
               </div>
               <button
@@ -168,9 +168,8 @@ const QualityManagement = () => {
                     <td className="border border-gray-300 p-2 text-center">{check.batchNumber}</td>
                     <td className="border border-gray-300 p-2 text-center">{new Date(check.inspectionDate).toLocaleDateString()}</td>
                     <td
-                      className={`border border-gray-300 p-2 text-center" ${
-                        check.status === 'Passed' ? 'text-green-900' : 'text-red-900'
-                      }`}
+                      className={`border border-gray-300 p-2 text-center" ${check.status === 'Passed' ? 'text-green-900' : 'text-red-900'
+                        }`}
                     >
                       {check.status === 'Passed' ? (
                         <FaCheckCircle className="inline-block mr-1" />

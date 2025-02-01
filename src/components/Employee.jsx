@@ -45,7 +45,7 @@ const Employee = () => {
     if (name === "contact" && !value.includes("@")) {
       return; // Prevent updating state if "@" is missing
     }
-    
+
     setFormState((prevState) => ({
       ...prevState,
       [name]: value,
@@ -140,7 +140,7 @@ const Employee = () => {
 
   return (
     <div className="flex font-kulim">
-      <Sidebar />
+      <Sidebar activated="employee" />
 
       <div className="flex-1 bg-white">
         <Topbar />
@@ -158,44 +158,44 @@ const Employee = () => {
                 setIsModalOpen(true);
               }}
             >
-             Add Employee
+              Add Employee
             </button>
           </header>
         </div>
 
         <div className="p-6 max-w-7xl mx-auto">
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    {filteredEmployees.map((employee) => (
-      <div
-        key={employee.id}
-        className="bg-gray-100 shadow-xl rounded-2xl py-4"
-      >
-        <FaUserCircle className="w-24 h-24 text-green-900 mx-auto mb-6" />
-        <h2 className="text-2xl font-semibold text-gray-800 text-center mb-2">
-          {employee.name}
-        </h2>
-        <p className="text-gray-600 text-center mb-1">{employee.empid}</p>
-        <p className="text-gray-600 text-center mb-2">{employee.role}</p>
-        <p className="text-gray-500 text-center mb-6">{employee.contact}</p>
-        <div className="flex justify-center space-x-6">
-          <button
-            onClick={() => handleEdit(employee._id)}
-            className="text-blue-700 text-2xl p-3 rounded-full transition duration-200 hover:text-blue-900"
-          >
-            <FaEdit />
-          </button>
-          <button
-            onClick={() => handleDelete(employee._id)}
-            className="text-red-800 p-3 text-2xl rounded-full transition duration-200 hover:text-red-900"
-          >
-            <FaTrash />
-          </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredEmployees.map((employee) => (
+              <div
+                key={employee.id}
+                className="bg-gray-100 shadow-xl rounded-2xl py-4"
+              >
+                <FaUserCircle className="w-24 h-24 text-green-900 mx-auto mb-6" />
+                <h2 className="text-2xl font-semibold text-gray-800 text-center mb-2">
+                  {employee.name}
+                </h2>
+                <p className="text-gray-600 text-center mb-1">{employee.empid}</p>
+                <p className="text-gray-600 text-center mb-2">{employee.role}</p>
+                <p className="text-gray-500 text-center mb-6">{employee.contact}</p>
+                <div className="flex justify-center space-x-6">
+                  <button
+                    onClick={() => handleEdit(employee._id)}
+                    className="text-blue-700 text-2xl p-3 rounded-full transition duration-200 hover:text-blue-900"
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(employee._id)}
+                    className="text-red-800 p-3 text-2xl rounded-full transition duration-200 hover:text-red-900"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    ))}
-  </div>
-</div>
-   
+
 
 
 

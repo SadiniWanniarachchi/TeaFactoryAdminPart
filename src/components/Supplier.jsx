@@ -83,7 +83,7 @@ const Supplier = () => {
 
   return (
     <div className="flex font-kulim">
-      <Sidebar />
+      <Sidebar activated="supplier" />
       <div className="flex-1 bg-white">
         <TopBar />
         <div className="p-6">
@@ -151,53 +151,52 @@ const Supplier = () => {
 
           {/* Supplier Table */}
           <div className="mt-6 overflow-x-auto">
-  <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-    <thead>
-      <tr className="bg-gray-100">
-        <th className="px-4 py-3 text-left text-sm font-bold text-black">Name</th>
-        <th className="px-4 py-3 text-left text-sm font-bold text-black">Supplier ID</th>
-        <th className="px-4 py-3 text-left text-sm font-bold text-black">Location</th>
-        <th className="px-4 py-3 text-left text-sm font-bold text-black">Status</th>
-        <th className="px-4 py-3 text-left text-sm font-bold text-black">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {suppliers.map((supplier) => (
-        <tr key={supplier._id} className="border-t border-gray-200">
-          <td className="px-4 py-4 text-sm text-gray-800">{supplier.name}</td>
-          <td className="px-4 py-4 text-sm text-gray-800">{supplier.supplierID}</td>
-          <td className="px-4 py-4 text-sm text-gray-800">{supplier.location}</td>
-          <td className="px-4 py-4 text-sm text-gray-800">
-            <span
-              className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                supplier.status === "Active"
-                  ? "bg-green-200 text-green-800"
-                  : "bg-red-200 text-red-800"
-              }`}
-            >
-              {supplier.status}
-            </span>
-          </td>
-          <td className="px-4 py-4 flex justify-start space-x-3">
-            <button
-              className="text-blue-700 p-2 rounded-md transition duration-200"
-              onClick={() => handleEdit(supplier)}
-            >
-              <FaEdit className="w-5 h-5" />
-            </button>
-            <button
-              className="text-red-800 p-2 rounded-md transition duration-200"
-              onClick={() => handleDelete(supplier._id)}
-            >
-              <FaTrash className="w-5 h-5" />
-            </button>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-  </div>
-  </div>
+            <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="px-4 py-3 text-left text-sm font-bold text-black">Name</th>
+                  <th className="px-4 py-3 text-left text-sm font-bold text-black">Supplier ID</th>
+                  <th className="px-4 py-3 text-left text-sm font-bold text-black">Location</th>
+                  <th className="px-4 py-3 text-left text-sm font-bold text-black">Status</th>
+                  <th className="px-4 py-3 text-left text-sm font-bold text-black">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {suppliers.map((supplier) => (
+                  <tr key={supplier._id} className="border-t border-gray-200">
+                    <td className="px-4 py-4 text-sm text-gray-800">{supplier.name}</td>
+                    <td className="px-4 py-4 text-sm text-gray-800">{supplier.supplierID}</td>
+                    <td className="px-4 py-4 text-sm text-gray-800">{supplier.location}</td>
+                    <td className="px-4 py-4 text-sm text-gray-800">
+                      <span
+                        className={`px-2 py-1 text-xs font-semibold rounded-full ${supplier.status === "Active"
+                          ? "bg-green-200 text-green-800"
+                          : "bg-red-200 text-red-800"
+                          }`}
+                      >
+                        {supplier.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 flex justify-start space-x-3">
+                      <button
+                        className="text-blue-700 p-2 rounded-md transition duration-200"
+                        onClick={() => handleEdit(supplier)}
+                      >
+                        <FaEdit className="w-5 h-5" />
+                      </button>
+                      <button
+                        className="text-red-800 p-2 rounded-md transition duration-200"
+                        onClick={() => handleDelete(supplier._id)}
+                      >
+                        <FaTrash className="w-5 h-5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
         {/* Modal */}
         {showModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -228,18 +227,18 @@ const Supplier = () => {
                 className="w-full mb-3 p-2 border rounded"
               />
               <select
-                 name="status"
-                 value={formValues.status}
-                 onChange={handleInputChange}
-                 className="w-full mb-3 p-2 border rounded"
-                 //{...formValues.status =/ "bg-green-200 text-green-800" : "bg-red-200 text-red-800"}
-                 placeholder="Status"
+                name="status"
+                value={formValues.status}
+                onChange={handleInputChange}
+                className="w-full mb-3 p-2 border rounded"
+                //{...formValues.status =/ "bg-green-200 text-green-800" : "bg-red-200 text-red-800"}
+                placeholder="Status"
               >
-              <option value="">Select Status</option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
+                <option value="">Select Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
               </select>
-              
+
               <div className="flex justify-between">
                 <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setShowModal(false)}>
                   Cancel
