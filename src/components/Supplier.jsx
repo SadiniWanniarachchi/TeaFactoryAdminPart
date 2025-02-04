@@ -94,7 +94,7 @@ const Supplier = () => {
               onClick={() => {
                 setShowModal(true);
                 setIsEditing(false);
-                setFormValues({ name: "", supplierID: "", location: "", status: "" });
+                setFormValues({ name: "", supplierID: "", location: "", status: "", orders: ""});
               }}
             >
               Add Supplier

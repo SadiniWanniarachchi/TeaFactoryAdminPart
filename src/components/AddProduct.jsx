@@ -9,7 +9,7 @@ const AddProduct = () => {
     category: "",
     price: "",
     description: "",
-    image: null,
+    image: "",
   });
 
   const [products, setProducts] = useState([]);
@@ -40,26 +40,47 @@ const AddProduct = () => {
     setFormData({ ...formData, image: file });
   };
 
+  // Upload file to cloudinary and return the response
+  const uploadToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const response = await fetch('http://localhost:5000/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    return data.secure_url;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("Form Data:", formData);
     
-    const formDataObj = new FormData();
-    formDataObj.append("name", formData.name);
-    formDataObj.append("category", formData.category);
-    formDataObj.append("price", formData.price);
-    formDataObj.append("description", formData.description);
-    if (formData.image) {
-      formDataObj.append("image", formData.image);
-    }
-
     try {
+      let uploadResponse = null;
+      
+      if (formData.image) {
+        uploadResponse = await uploadToCloudinary(formData.image);
+        console.log("Upload Response:", uploadResponse);
+      }
+
+      const productData = {
+        name: formData.name,
+        category: formData.category,
+        price: formData.price,
+        description: formData.description,
+        image: uploadResponse ? uploadResponse : "https://www.hmmawards.com/wp-content/uploads/woocommerce-placeholder-300x300.png",
+      };
+
       const response = await fetch(
         editId ? `http://localhost:5000/api/Product/${editId}` : "http://localhost:5000/api/Product", 
         {
           method: editId ? "PUT" : "POST",
-          body: formDataObj,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(productData),
         }
       );
       
