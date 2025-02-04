@@ -12,7 +12,6 @@ const SystemUser = () => {
     const [formValues, setFormValues] = useState({
         name: "",
         email: "",
-        role: "",
         status: "Active",
     });
     const [isEditing, setIsEditing] = useState(false);
@@ -98,7 +97,7 @@ const SystemUser = () => {
                             onClick={() => {
                                 setShowModal(true);
                                 setIsEditing(false);
-                                setFormValues({ name: "", email: "", role: "", status: "Active" });
+                                setFormValues({ name: "", email: "", status: "Active" });
                             }}
                         >
                             <FaPlus className="mr-2" /> Add User
@@ -146,7 +145,6 @@ const SystemUser = () => {
                                 <tr className="bg-gray-100">
                                     <th className="px-4 py-3 text-left text-sm font-bold text-black">Name</th>
                                     <th className="px-4 py-3 text-left text-sm font-bold text-black">Email</th>
-                                    <th className="px-4 py-3 text-left text-sm font-bold text-black">Role</th>
                                     <th className="px-4 py-3 text-left text-sm font-bold text-black">Status</th>
                                     <th className="px-4 py-3 text-left text-sm font-bold text-black">Actions</th>
                                 </tr>
@@ -156,7 +154,6 @@ const SystemUser = () => {
                                     <tr key={user._id} className="border-t border-gray-200 hover:bg-gray-50">
                                         <td className="px-4 py-4 text-sm text-gray-800">{user.name}</td>
                                         <td className="px-4 py-4 text-sm text-gray-800">{user.email}</td>
-                                        <td className="px-4 py-4 text-sm text-gray-800">{user.role}</td>
                                         <td className="px-4 py-4 text-sm text-gray-800">
                                             <span
                                                 className={`px-2 py-1 text-xs font-semibold rounded-full ${user.status === "Active"
@@ -207,14 +204,6 @@ const SystemUser = () => {
                                 value={formValues.email}
                                 onChange={handleInputChange}
                                 placeholder="Email"
-                                className="w-full mb-3 p-2 border rounded"
-                            />
-                            <input
-                                type="text"
-                                name="role"
-                                value={formValues.role}
-                                onChange={handleInputChange}
-                                placeholder="Role"
                                 className="w-full mb-3 p-2 border rounded"
                             />
                             <select
