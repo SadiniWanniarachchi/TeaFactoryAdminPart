@@ -9,7 +9,8 @@ import QA from "./components/QA"; // Add QA component
 import Sales from "./components/Sales"; // Add Sales component
 import Help from "./components/Help"; // Add Help component
 import Settings from "./components/Settings"; // Add Settings component
-import AddProduct from "./components/AddProduct";
+import AddProduct from "./components/AddProduct"; // Add Product component
+import SystemUser from "./components/SystemUser"; // Add SystemUser component
 
 
 const App = () => {
@@ -19,11 +20,12 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/employee" element={<Employee />} />
+        <Route path="/systemuser" element={<SystemUser />} />
         <Route path="/supplier" element={<Supplier />} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/qa" element={<QA />} />
         <Route path="/sales" element={<Sales />} />
-        <Route path="/addproduct" element={<AddProduct />} /> 
+        <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/help" element={<Help />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>

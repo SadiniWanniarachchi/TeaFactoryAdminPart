@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { FaUsers, FaTruck, FaKey, FaPlusCircle, FaQuestionCircle } from 'react-icons/fa';
+import { FaUsers } from 'react-icons/fa';
+import { FaUser } from "react-icons/fa";
 import { LiaCoinsSolid } from "react-icons/lia";
 import { FaCartFlatbed } from "react-icons/fa6";
 import { PiCertificateFill } from "react-icons/pi";
@@ -16,6 +17,15 @@ const Sidebar = ({ activated }) => {
       >Dashboard</Link>
 
       <nav className="flex flex-col gap-4">
+
+        <Link
+          to="/systemuser"
+          className={`flex text-xl pb-3 items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] rounded-md transition-all duration-300 ${activated === "systemuser" ? "bg-white" : ""
+            }`}
+        >
+          <FaUser className="text-green-900" /> User Management
+        </Link>
+
         <Link
           to="/employee"
           className={`flex text-xl pb-3 items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] rounded-md transition-all duration-300 ${activated === "employee" ? "bg-white" : ""
@@ -42,7 +52,7 @@ const Sidebar = ({ activated }) => {
 
         <Link
           to="/qa"
-          className={`flex text-xl pb-3 items-center gap-5 px-4 py-2 font-semibold text-black rounded-md transition-all duration-300 ${activated === "qa" ? "bg-white" : ""
+          className={`flex text-xl pb-3 items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] rounded-md transition-all duration-300 ${activated === "qa" ? "bg-white" : ""
             }`}
         >
           <PiCertificateFill className="text-green-900" /> Quality Management
@@ -50,7 +60,7 @@ const Sidebar = ({ activated }) => {
 
         <Link
           to="/sales"
-          className={`flex text-xl pb-3 items-center gap-5 px-4 py-2 font-semibold text-black p-3 rounded-md transition-all duration-300 ${activated === "sale" ? "bg-white" : ""
+          className={`flex text-xl pb-3 items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] p-3 rounded-md transition-all duration-300 ${activated === "sale" ? "bg-white" : ""
             }`}
         >
           <LiaCoinsSolid className="text-green-900" /> Sales Management
@@ -59,14 +69,14 @@ const Sidebar = ({ activated }) => {
         <Link
           to="/addproduct"
           className={`${activated === "product" ? "bg-white" : ""
-            } flex text-xl items-center gap-5 px-4 py-2 font-semibold text-black rounded-md transition-all duration-300`}
+            } flex text-xl items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] rounded-md transition-all duration-300`}
         >
           <FaBasketShopping className="text-green-900" /> Add Product
         </Link>
 
         <Link
           to="/help"
-          className={`flex text-xl mt-32 pb-3 items-center gap-5 px-4 py-2 font-semibold text-black p-3 rounded-md transition-all duration-300 ${activated === "help" ? "bg-white" : ""
+          className={`flex text-xl mt-20 pb-2 items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] p-3 rounded-md transition-all duration-300 ${activated === "help" ? "bg-white" : ""
             }`}
         >
           <MdHelp className="text-green-900" /> Help
