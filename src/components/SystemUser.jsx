@@ -58,9 +58,9 @@ const SystemUser = () => {
             await fetchUsers();
             setShowModal(false);
             setIsEditing(false);
-            setFormValues({ name: "", email: "", role: "", status: "Active" });
+            setFormValues({ name: "", email: "", status: "Active" });
         } catch (error) {
-            console.error("Error saving user:", error);
+
         }
     };
 
@@ -97,6 +97,7 @@ const SystemUser = () => {
                             onClick={() => {
                                 setShowModal(true);
                                 setIsEditing(false);
+                                setFormValues({ name: "", email: "", status: "Active" });
                                 setFormValues({ name: "", email: "", status: "Active" });
                             }}
                         >
