@@ -56,10 +56,10 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       let uploadResponse = null;
-      
+
       if (formData.image) {
         uploadResponse = await uploadToCloudinary(formData.image);
         console.log("Upload Response:", uploadResponse);
@@ -74,7 +74,7 @@ const AddProduct = () => {
       };
 
       const response = await fetch(
-        editId ? `http://localhost:5000/api/Product/${editId}` : "http://localhost:5000/api/Product", 
+        editId ? `http://localhost:5000/api/Product/${editId}` : "http://localhost:5000/api/Product",
         {
           method: editId ? "PUT" : "POST",
           headers: {
@@ -83,13 +83,13 @@ const AddProduct = () => {
           body: JSON.stringify(productData),
         }
       );
-      
+
       if (!response.ok) {
         const error = await response.json();
         console.error('error response: ', error);
         throw new Error("Failed to save product");
       }
-      
+
       const product = await response.json();
       setProducts(editId ? products.map(p => (p._id === editId ? product : p)) : [...products, product]);
       setEditId(null);
@@ -118,7 +118,7 @@ const AddProduct = () => {
 
   return (
     <div className="flex bg-white font-kulim">
-      <Sidebar activated="product"/>
+      <Sidebar activated="product" />
       <div className="flex-1 flex flex-col">
         <Topbar />
         <div className="p-6 flex-1">
@@ -128,22 +128,22 @@ const AddProduct = () => {
               {isFormVisible ? "Cancel" : "Add Product"}
             </button>
           </header>
-          
+
           {isFormVisible && (
             <div className="bg-gray-100 shadow-xl rounded-lg p-8 mb-8 max-w-lg mx-auto">
               <h2 className="text-2xl font-bold text-gray-800 mb-6">{editId ? "Edit Product" : "Add New Product"}</h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <input type="text" name="name" placeholder="Product Name" value={formData.name} onChange={handleChange} className="w-full p-3 border rounded-md" required />
                 <input type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} className="w-full p-3 border rounded-md" required />
-                <input 
-                 type="number" 
-                 name="price" 
-                 placeholder="Price (USD)" 
-                 value={formData.price} 
-                 onChange={handleChange} 
-                 className="w-full p-3 border rounded-md" 
-                 min="0"  // Ensures the price cannot be negative
-                 required 
+                <input
+                  type="number"
+                  name="price"
+                  placeholder="Price (USD)"
+                  value={formData.price}
+                  onChange={handleChange}
+                  className="w-full p-3 border rounded-md"
+                  min="0"  // Ensures the price cannot be negative
+                  required
                 />
                 <textarea name="description" placeholder="Product Description" value={formData.description} onChange={handleChange} className="w-full p-3 border rounded-md" rows="3" required></textarea>
                 <label className="block w-full border-2 border-dashed p-6 text-center cursor-pointer rounded-md">
@@ -160,25 +160,46 @@ const AddProduct = () => {
           )}
 
           <div className="mt-8">
-            <h3 className="text-xl font-semibold mt-36 mb-4 text-center">Product List</h3>
+            <h3 className="text-3xl font-bold mt-12 mb-4 text-center">Product List</h3>
             {products.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product) => (
                   <div key={product._id} className="bg-white p-4 rounded-lg shadow-lg">
-                    {product.image && <img src={product.image} alt={product.name} className="w-full h-48 object-cover rounded-md mb-4" />}
-                    <h4 className="font-semibold text-lg">{product.name}</h4>
-                    <p className="text-gray-600">{product.category}</p>
-                    <p className="text-green-900 font-semibold mt-2">${product.price}</p>
-                    <p className="text-gray-500 text-sm mt-2">{product.description}</p>
+                    {product.image && (
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-48 object-cover rounded-md mb-4"
+                      />
+                    )}
+
+                    {/* Name and Price in the Same Row */}
+                    <div className="flex justify-between items-center">
+                      <h4 className="font-bold text-xl text-green-900">{product.name}</h4>
+                      <p className="text-green-900 font-bold text-xl">${product.price}</p>
+                    </div>
+
+                    {/* Category and Description */}
+                    <p className="text-black text-lg font-bold mt-2">{product.category}</p>
+                    <p className="text-black text-base mt-2">{product.description}</p>
+
+                    {/* Edit and Delete Buttons */}
                     <div className="mt-4 flex justify-between">
-                      <button onClick={() => handleEdit(product._id)} className="text-blue-800"><FaEdit /></button>
-                      <button onClick={() => handleDelete(product._id)} className="text-red-900"><FaTrash /></button>
+                      <button onClick={() => handleEdit(product._id)} className="text-blue-800 text-2xl">
+                        <FaEdit />
+                      </button>
+                      <button onClick={() => handleDelete(product._id)} className="text-red-900 text-2xl">
+                        <FaTrash />
+                      </button>
                     </div>
                   </div>
                 ))}
               </div>
-            ) : <p className="text-gray-500 text-center">No products added yet.</p>}
+            ) : (
+              <p className="text-gray-500 text-center">No products added yet.</p>
+            )}
           </div>
+
         </div>
       </div>
     </div>

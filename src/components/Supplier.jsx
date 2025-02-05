@@ -94,7 +94,7 @@ const Supplier = () => {
               onClick={() => {
                 setShowModal(true);
                 setIsEditing(false);
-                setFormValues({ name: "", supplierID: "", location: "", status: "", orders: ""});
+                setFormValues({ name: "", supplierID: "", location: "", status: "", orders: "" });
               }}
             >
               Add Supplier
@@ -123,34 +123,22 @@ const Supplier = () => {
               </div>
             </div>
 
-            {/* Total Orders */}
+            {/* Inactive Suppliers */}
             <div className="bg-white shadow-md rounded-lg border border-gray-200 p-6 flex items-center space-x-4 hover:shadow-lg transition-all duration-300">
-              <FaBoxOpen className="text-3xl text-green-900" />
+              <FaBoxOpen className="text-4xl text-red-900" />
               <div>
-                <p className="text-lg font-semibold text-gray-700">Total Orders</p>
+                <p className="text-lg font-semibold text-gray-700">Inactive Suppliers</p>
                 <p className="text-2xl font-bold text-gray-800">
-                  {suppliers.reduce((acc, supplier) => acc + parseInt(supplier.orders || 0), 0)}
+                  {suppliers.filter((supplier) => supplier.status === "Inactive").length}
                 </p>
               </div>
             </div>
+
           </div>
 
-          {/* Chart Section */}
-          <div className="bg-white shadow-xl rounded-lg p-20 mb-20">
-            <h2 className="font-bold text-xl text-black mb-10">Supplier Orders Overview</h2>
-            <ResponsiveContainer width="100%" height={350}>
-              <BarChart data={chartData} barCategoryGap={30} width={650}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fill: "#6B7280", fontSize: 14 }} />
-                <YAxis tick={{ fill: "#6B7280", fontSize: 12 }} axisLine={false} />
-                <Tooltip />
-                <Bar dataKey="orders" fill="#4A774A" barSize={50} radius={[10, 10, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
 
           {/* Supplier Table */}
-          <div className="mt-6 overflow-x-auto">
+          <div className="mt-12 overflow-x-auto">
             <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
               <thead>
                 <tr className="bg-gray-100">
