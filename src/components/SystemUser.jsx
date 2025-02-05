@@ -98,6 +98,7 @@ const SystemUser = () => {
                                 setShowModal(true);
                                 setIsEditing(false);
                                 setFormValues({ name: "", email: "", status: "Active" });
+                                setFormValues({ name: "", email: "", status: "Active" });
                             }}
                         >
                             <FaPlus className="mr-2" /> Add User
@@ -154,7 +155,6 @@ const SystemUser = () => {
                                     <tr key={user._id} className="border-t border-gray-200 hover:bg-gray-50">
                                         <td className="px-4 py-4 text-sm text-gray-800">{user.name}</td>
                                         <td className="px-4 py-4 text-sm text-gray-800">{user.email}</td>
-
                                         <td className="px-4 py-4 text-sm text-gray-800">
                                             <span
                                                 className={`px-2 py-1 text-xs font-semibold rounded-full ${user.status === "Active"
@@ -207,7 +207,6 @@ const SystemUser = () => {
                                 placeholder="Email"
                                 className="w-full mb-3 p-2 border rounded"
                             />
-
                             <select
                                 name="status"
                                 value={formValues.status}
