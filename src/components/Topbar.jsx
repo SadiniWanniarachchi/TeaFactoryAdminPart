@@ -1,50 +1,74 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaBell, FaUserCircle, FaSearch } from "react-icons/fa";
-import { FiChevronDown, FiLogOut } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { FaUserCircle, FaCaretDown, FaBell, FaSearch } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { AiOutlineWarning } from "react-icons/ai";
 import { HiOutlineChartBar } from "react-icons/hi";
 
-const Topbar = () => {
+const Topbar = ({ user }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
 
   const notificationRef = useRef(null);
   const dropdownRef = useRef(null);
 
+  // Toggle Notifications
   const toggleNotifications = () => {
     setShowNotifications(!showNotifications);
+    setShowDropdown(false); // Close user dropdown when notifications open
+  };
+
+  // Toggle User Dropdown
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+    setShowNotifications(false); // Close notifications when user dropdown opens
+  };
+
+  const [currentUser, setCurrentUser] = useState(user);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setCurrentUser(storedUser);
+    }
+  }, []);
+
+
+  // Logout Function
+  const logoutUser = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
+  // Navigate to Profile Page
+  const navigateToProfile = () => {
+    navigate("/ProfilePage");
     setShowDropdown(false);
   };
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-    setShowNotifications(false);
-  };
-
-  const handleClickOutside = (event) => {
-    if (
-      notificationRef.current &&
-      !notificationRef.current.contains(event.target)
-    ) {
-      setShowNotifications(false);
-    }
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setShowDropdown(false);
-    }
-  };
-
+  // Close dropdowns when clicking outside
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
-    <header className="bg-white sticky top-0 z-10 font-kulim">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center mt-9 font-kulim">
+    <header className="bg-white sticky top-0 z-10 font-kulim shadow-md">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Search Bar */}
         <div className="flex items-center bg-gray-100 px-4 py-3 rounded-full shadow-sm w-full max-w-md">
           <FaSearch className="text-gray-400 mr-2" />
@@ -57,23 +81,20 @@ const Topbar = () => {
 
         {/* Notification and Profile Section */}
         <div className="flex items-center space-x-6 relative">
-          {/* Notification Bell */}
-          <div
-            className="relative cursor-pointer"
-            ref={notificationRef}
-          >
+          {/* Notifications Bell */}
+          <div className="relative cursor-pointer" ref={notificationRef}>
             <FaBell
               className="text-green-900 text-2xl hover:text-gray-800 transition"
               onClick={toggleNotifications}
             />
-            <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">
+            <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1 transform translate-x-1/2 -translate-y-1/2">
               3
             </span>
+
+            {/* Notification Dropdown */}
             {showNotifications && (
               <div className="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded-lg border border-gray-200 z-20">
-                <div className="p-4 text-gray-800 font-medium border-b">
-                  Notifications
-                </div>
+                <div className="p-4 text-gray-800 font-medium border-b">Notifications</div>
                 <ul className="divide-y divide-gray-200">
                   <li className="p-4 flex items-center text-sm hover:bg-gray-100">
                     <MdOutlineAddShoppingCart className="text-blue-500 text-lg mr-3" />
@@ -95,32 +116,33 @@ const Topbar = () => {
             )}
           </div>
 
-          {/* Profile Section */}
-          <div
-            className="relative flex items-center space-x-3"
-            ref={dropdownRef}
-          >
-            <FaUserCircle className="text-green-900 text-3xl cursor-pointer" />
-            <div
-              className="flex items-center cursor-pointer space-x-1"
+          {/* User Profile Dropdown */}
+          <div className="relative" ref={dropdownRef}>
+            <button
               onClick={toggleDropdown}
+              className="flex items-center space-x-2 focus:outline-none"
             >
-              <span className="text-gray-700 font-medium hidden sm:inline">
-                Admin
-              </span>
-              <FiChevronDown className="text-gray-500" />
-            </div>
+              <FaUserCircle className="w-8 h-8 text-green-900" />
+              <span className="text-green-900 font-bold">{currentUser?.name || "Guest"}</span>
+
+              <FaCaretDown className={`w-4 h-4 text-green-900 transition-transform ${showDropdown ? "rotate-180" : ""}`} />
+            </button>
+
+            {/* Dropdown Menu */}
             {showDropdown && (
-              <div className="absolute right-0 mt-24 w-40 bg-white shadow-lg rounded-lg border border-gray-200 z-20">
-                <ul className="divide-y divide-gray-200">
-                  <li
-                    className="p-4 flex items-center text-sm hover:bg-gray-100 cursor-pointer"
-                    onClick={() => alert("Logging out...")}
-                  >
-                    <FiLogOut className="text-gray-500 mr-3" />
-                    <span>Logout</span>
-                  </li>
-                </ul>
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                <button
+                  onClick={navigateToProfile}
+                  className="block w-full text-left px-4 py-2 text-black font-bold hover:bg-gray-200 rounded-lg"
+                >
+                  Profile
+                </button>
+                <button
+                  onClick={logoutUser}
+                  className="block w-full text-left px-4 py-2 text-red-700 font-bold hover:bg-gray-200 rounded-lg"
+                >
+                  Logout
+                </button>
               </div>
             )}
           </div>
