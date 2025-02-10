@@ -11,6 +11,7 @@ import Help from "./components/Help"; // Add Help component
 import Settings from "./components/Settings"; // Add Settings component
 import AddProduct from "./components/AddProduct"; // Add Product component
 import SystemUser from "./components/SystemUser"; // Add SystemUser component
+import ProfilePage from "./components/ProfilePage";
 
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/help" element={<Help />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/ProfilePage" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle, FaCaretDown, FaBell, FaSearch } from "react-icons/fa";
-import { FiLogOut } from "react-icons/fi";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { AiOutlineWarning } from "react-icons/ai";
 import { HiOutlineChartBar } from "react-icons/hi";

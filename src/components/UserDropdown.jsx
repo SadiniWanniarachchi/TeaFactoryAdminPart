@@ -21,7 +21,7 @@ const UserDropdown = ({ user }) => {
 
     // Navigate to Profile Page
     const navigateToProfile = () => {
-        navigate("/ProfilePage");
+        navigate("/Profile");
         setDropdownOpen(false);
     };
 
