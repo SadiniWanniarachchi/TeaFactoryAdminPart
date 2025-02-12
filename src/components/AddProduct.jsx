@@ -143,8 +143,10 @@ const AddProduct = () => {
                   onChange={handleChange}
                   className="w-full p-3 border rounded-md"
                   min="0"  // Ensures the price cannot be negative
+                  step="0.01"  // Allows decimals in the price
                   required
                 />
+
                 <textarea name="description" placeholder="Product Description" value={formData.description} onChange={handleChange} className="w-full p-3 border rounded-md" rows="3" required></textarea>
                 <label className="block w-full border-2 border-dashed p-6 text-center cursor-pointer rounded-md">
                   <input type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
