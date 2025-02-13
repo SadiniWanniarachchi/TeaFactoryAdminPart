@@ -3,7 +3,7 @@ import { FaPlus, FaEdit, FaTrash, FaUser, FaUserCheck, FaUserTimes } from "react
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
-export const API_URL = "http://localhost:5000/api/SystemUser";
+export const API_URL = "http://localhost:5000/api/user/user";
 
 
 const SystemUser = () => {
@@ -21,14 +21,24 @@ const SystemUser = () => {
         fetchUsers();
     }, []);
 
-    // Fetch users from the backend
     const fetchUsers = async () => {
         try {
             const response = await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Response is not JSON');
+            }
+
             const data = await response.json();
             setUsers(data);
         } catch (error) {
             console.error("Error fetching users:", error);
+            // Optionally set an error state
         }
     };
 
