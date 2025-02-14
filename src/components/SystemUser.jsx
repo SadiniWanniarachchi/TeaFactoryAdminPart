@@ -12,7 +12,7 @@ const SystemUser = () => {
     const [formValues, setFormValues] = useState({
         name: "",
         email: "",
-        status: "Active",
+        password: "",
     });
     const [isEditing, setIsEditing] = useState(false);
     const [editId, setEditId] = useState(null);
@@ -23,6 +23,7 @@ const SystemUser = () => {
 
     const fetchUsers = async () => {
         try {
+            console.log("Fetching users from:", API_URL);
             const response = await fetch(API_URL);
 
             if (!response.ok) {
@@ -35,13 +36,12 @@ const SystemUser = () => {
             }
 
             const data = await response.json();
+            console.log("Users fetched:", data);
             setUsers(data);
         } catch (error) {
             console.error("Error fetching users:", error);
-            // Optionally set an error state
         }
     };
-
     // Handle input changes in the form
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -68,7 +68,7 @@ const SystemUser = () => {
             await fetchUsers();
             setShowModal(false);
             setIsEditing(false);
-            setFormValues({ name: "", email: "", status: "Active" });
+            setFormValues({ name: "", email: "", password: "" });
         } catch (error) {
 
         }
@@ -107,8 +107,8 @@ const SystemUser = () => {
                             onClick={() => {
                                 setShowModal(true);
                                 setIsEditing(false);
-                                setFormValues({ name: "", email: "", status: "Active" });
-                                setFormValues({ name: "", email: "", status: "Active" });
+                                setFormValues({ name: "", email: "", password: "" });
+                                setFormValues({ name: "", email: "", password: "" });
                             }}
                         >
                             <FaPlus className="mr-2" /> Add User
@@ -126,126 +126,98 @@ const SystemUser = () => {
                             </div>
                         </div>
 
-                        {/* Active Users */}
-                        <div className="bg-white shadow-md rounded-lg border border-gray-200 p-6 flex items-center space-x-4 hover:shadow-lg transition-all duration-300">
-                            <FaUserCheck className="text-3xl text-green-900" />
-                            <div>
-                                <p className="text-lg font-semibold text-gray-700">Active Users</p>
-                                <p className="text-2xl font-bold text-gray-800">
-                                    {users.filter((user) => user.status === "Active").length}
-                                </p>
-                            </div>
-                        </div>
 
-                        {/* Inactive Users */}
-                        <div className="bg-white shadow-md rounded-lg border border-gray-200 p-6 flex items-center space-x-4 hover:shadow-lg transition-all duration-300">
-                            <FaUserTimes className="text-3xl text-red-900" />
-                            <div>
-                                <p className="text-lg font-semibold text-gray-700">Inactive Users</p>
-                                <p className="text-2xl font-bold text-gray-800">
-                                    {users.filter((user) => user.status === "Inactive").length}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* User Table */}
-                    <div className="mt-6 overflow-x-auto">
-                        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                            <thead>
-                                <tr className="bg-gray-100">
-                                    <th className="px-4 py-3 text-left text-sm font-bold text-black">Name</th>
-                                    <th className="px-4 py-3 text-left text-sm font-bold text-black">Email</th>
-                                    <th className="px-4 py-3 text-left text-sm font-bold text-black">Status</th>
-                                    <th className="px-4 py-3 text-left text-sm font-bold text-black">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {users.map((user) => (
-                                    <tr key={user._id} className="border-t border-gray-200 hover:bg-gray-50">
-                                        <td className="px-4 py-4 text-sm text-gray-800">{user.name}</td>
-                                        <td className="px-4 py-4 text-sm text-gray-800">{user.email}</td>
-                                        <td className="px-4 py-4 text-sm text-gray-800">
-                                            <span
-                                                className={`px-2 py-1 text-xs font-semibold rounded-full ${user.status === "Active"
-                                                    ? "bg-green-200 text-green-800"
-                                                    : "bg-red-200 text-red-800"
-                                                    }`}
-                                            >
-                                                {user.status}
-                                            </span>
-                                        </td>
-                                        <td className="px-4 py-4 flex justify-start space-x-3">
-                                            <button
-                                                className="text-blue-700 p-2 rounded-md transition duration-200"
-                                                onClick={() => handleEdit(user)}
-                                            >
-                                                <FaEdit className="w-5 h-5" />
-                                            </button>
-                                            <button
-                                                className="text-red-800 p-2 rounded-md transition duration-200"
-                                                onClick={() => handleDelete(user._id)}
-                                            >
-                                                <FaTrash className="w-5 h-5" />
-                                            </button>
-                                        </td>
+                        {/* User Table */}
+                        <div className="mt-6 overflow-x-auto">
+                            <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                                <thead>
+                                    <tr className="bg-gray-100">
+                                        <th className="px-4 py-3 text-left text-sm font-bold text-black">Name</th>
+                                        <th className="px-4 py-3 text-left text-sm font-bold text-black">Email</th>
+                                        <th className="px-4 py-3 text-left text-sm font-bold text-black">Password</th>
+                                        <th className="px-4 py-3 text-left text-sm font-bold text-black">Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                {/* Modal for Add/Edit User */}
-                {showModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                        <div className="bg-white p-6 rounded-lg shadow-lg sm:w-full md:w-96">
-                            <h2 className="text-xl font-semibold mb-4">{isEditing ? "Edit User" : "Add User"}</h2>
-                            <input
-                                type="text"
-                                name="name"
-                                value={formValues.name}
-                                onChange={handleInputChange}
-                                placeholder="Name"
-                                className="w-full mb-3 p-2 border rounded"
-                            />
-                            <input
-                                type="email"
-                                name="email"
-                                value={formValues.email}
-                                onChange={handleInputChange}
-                                placeholder="Email"
-                                className="w-full mb-3 p-2 border rounded"
-                            />
-                            <select
-                                name="status"
-                                value={formValues.status}
-                                onChange={handleInputChange}
-                                className="w-full mb-3 p-2 border rounded"
-                            >
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                            </select>
-                            <div className="flex justify-between">
-                                <button
-                                    className="bg-gray-500 text-white px-4 py-2 rounded"
-                                    onClick={() => setShowModal(false)}
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    className="bg-green-900 text-white px-4 py-2 rounded"
-                                    onClick={handleSave}
-                                >
-                                    Save
-                                </button>
-                            </div>
+                                </thead>
+                                <tbody>
+                                    {users.map((user) => (
+                                        <tr key={user._id} className="border-t border-gray-200 hover:bg-gray-50">
+                                            <td className="px-4 py-4 text-sm text-gray-800">{user.name}</td>
+                                            <td className="px-4 py-4 text-sm text-gray-800">{user.email}</td>
+                                            <td className="px-4 py-4 text-sm text-gray-800">{user.password}</td>
+                                            <td className="px-4 py-4 flex justify-start space-x-3">
+                                                <button
+                                                    className="text-blue-700 p-2 rounded-md transition duration-200"
+                                                    onClick={() => handleEdit(user)}
+                                                >
+                                                    <FaEdit className="w-5 h-5" />
+                                                </button>
+                                                <button
+                                                    className="text-red-800 p-2 rounded-md transition duration-200"
+                                                    onClick={() => handleDelete(user._id)}
+                                                >
+                                                    <FaTrash className="w-5 h-5" />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                )}
+
+                    {/* Modal for Add/Edit User */}
+                    {showModal && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                            <div className="bg-white p-6 rounded-lg shadow-lg sm:w-full md:w-96">
+                                <h2 className="text-xl font-semibold mb-4">{isEditing ? "Edit User" : "Add User"}</h2>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formValues.name}
+                                    onChange={handleInputChange}
+                                    placeholder="Name"
+                                    className="w-full mb-3 p-2 border rounded"
+                                />
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formValues.email}
+                                    onChange={handleInputChange}
+                                    placeholder="Email"
+                                    className="w-full mb-3 p-2 border rounded"
+                                />
+                                <input
+                                    type="password"
+                                    name="password"
+                                    value={formValues.password}
+                                    onChange={handleInputChange}
+                                    placeholder="Password"
+                                    className="w-full mb-3 p-2 border rounded"
+                                />
+
+                                <div className="flex justify-between">
+                                    <button
+                                        className="bg-gray-500 text-white px-4 py-2 rounded"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        className="bg-green-900 text-white px-4 py-2 rounded"
+                                        onClick={handleSave}
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
+            );
         </div>
     );
+
 };
 
 export default SystemUser;
