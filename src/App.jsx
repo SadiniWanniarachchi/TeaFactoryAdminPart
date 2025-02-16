@@ -14,6 +14,7 @@ import SystemUser from "./components/SystemUser"; // Add SystemUser component
 import ProfilePage from "./components/ProfilePage";
 
 
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/help" element={<Help />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/ProfilePage" element={<ProfilePage />} />
+        <Route path="/Login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

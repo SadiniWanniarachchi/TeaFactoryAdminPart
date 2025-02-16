@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { FaPlus, FaEdit, FaTrash, FaUser, FaUserCheck, FaUserTimes } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash, FaUser } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import axios from "axios";
 
-export const API_URL = "http://localhost:5000/api/user/";
+
+export const API_URL = "http://localhost:5000/api/user";
 
 const SystemUser = () => {
     const [users, setUsers] = useState([]);
@@ -24,8 +26,6 @@ const SystemUser = () => {
         try {
             console.log("Fetching users from:", API_URL);
             const response = await fetch(API_URL);
-
-            console.log("Response:", response.body);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -49,30 +49,34 @@ const SystemUser = () => {
         setFormValues({ ...formValues, [name]: value });
     };
 
+
     const handleSave = async () => {
-        try {
-            const method = isEditing ? "PUT" : "POST";
-            const url = isEditing ? `${API_URL}/${editId}` : API_URL;
+        if (formValues.name && formValues.email) {
+            try {
+                console.log("Form values being sent:", formValues);
 
-            const response = await fetch(url, {
-                method,
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formValues),
-            });
+                if (isEditing) {
+                    console.log("Updating user with ID:", editId);
+                    await axios.put(`${API_URL}/${editId}`, formValues);
+                } else {
+                    await axios.post(API_URL, formValues);
+                }
 
-            if (!response.ok) {
-                const errorResponse = await response.json();
-                throw new Error(errorResponse.message || "Failed to save user");
+                await fetchUsers(); // Refresh user data
+                setShowModal(false);
+                setIsEditing(false);
+                setFormValues({ name: "", email: "", password: "" });
+
+            } catch (error) {
+                console.error("Error saving user:", error.response ? error.response.data : error.message);
             }
-
-            await fetchUsers();
-            setShowModal(false);
-            setIsEditing(false);
-            setFormValues({ name: "", email: "", password: "" });
-        } catch (error) {
-            console.error("Error saving user:", error);
+        } else {
+            console.error("Error: All fields are required!");
         }
     };
+
+
+
 
     const handleEdit = (user) => {
         setFormValues(user);
@@ -81,9 +85,9 @@ const SystemUser = () => {
         setShowModal(true);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (_id) => {
         try {
-            const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+            const response = await fetch(`${API_URL}/${_id}`, { method: "DELETE" });
             if (!response.ok) throw new Error("Failed to delete user");
             await fetchUsers();
         } catch (error) {
@@ -181,6 +185,7 @@ const SystemUser = () => {
                                     className="w-full mb-4 p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-green-900"
                                 />
 
+
                                 <div className="flex justify-end space-x-3">
                                     <button
                                         className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-all"
@@ -191,6 +196,7 @@ const SystemUser = () => {
                                     <button
                                         className="bg-green-900 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition-all"
                                         onClick={handleSave}
+
                                     >
                                         Save
                                     </button>
@@ -200,7 +206,7 @@ const SystemUser = () => {
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
