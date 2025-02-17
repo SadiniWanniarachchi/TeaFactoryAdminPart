@@ -35,15 +35,19 @@ const Employee = () => {
     }
   };
 
-  // Handle Input Change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "name" && !/^[A-Za-z\s]*$/.test(value)) {
       return; // Prevents updating state if invalid characters are entered
     }
 
-    if (name === "contact" && !value.includes("@")) {
-      return; // Prevent updating state if "@" is missing
+    if (name === "contact" && value && !value.includes("@")) {
+      // Allow typing in the contact field but prevent invalid emails
+      setFormState((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+      return;
     }
 
     setFormState((prevState) => ({
@@ -51,6 +55,7 @@ const Employee = () => {
       [name]: value,
     }));
   };
+
 
   // Handle Employee Edit
   const handleEdit = (id) => {
