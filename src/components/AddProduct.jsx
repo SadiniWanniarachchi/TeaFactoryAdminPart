@@ -132,9 +132,29 @@ const AddProduct = () => {
           {isFormVisible && (
             <div className="bg-gray-100 shadow-xl rounded-lg p-8 mb-8 max-w-lg mx-auto">
               <h2 className="text-2xl font-bold text-gray-800 mb-6">{editId ? "Edit Product" : "Add New Product"}</h2>
+
               <form onSubmit={handleSubmit} className="space-y-4">
+
                 <input type="text" name="name" placeholder="Product Name" value={formData.name} onChange={handleChange} className="w-full p-3 border rounded-md" required />
-                <input type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} className="w-full p-3 border rounded-md" required />
+
+                {/* Category Dropdown */}
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className={`w-full p-3 border rounded-md ${formData.category ? 'text-black' : 'text-gray-400'}`}
+                  required
+                >
+                  <option value="" disabled>Select Category</option>
+                  <option value="Herbal Tea">Herbal Infusion</option>
+                  <option value="Black Tea">Fully Oxidized Tea</option>
+                  <option value="Oolong Tea">Semi-Oxidized Tea</option>
+                  <option value="Yellow Tea">Lightly Fermented Tea</option>
+                  <option value="Lemon Tea">Flavored Tea</option>
+                  {/* Add more categories as needed */}
+                </select>
+
+
                 <input
                   type="number"
                   name="price"
@@ -148,14 +168,17 @@ const AddProduct = () => {
                 />
 
                 <textarea name="description" placeholder="Product Description" value={formData.description} onChange={handleChange} className="w-full p-3 border rounded-md" rows="3" required></textarea>
+
                 <label className="block w-full border-2 border-dashed p-6 text-center cursor-pointer rounded-md">
                   <input type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
                   <FaUpload className="text-gray-500 text-2xl mx-auto" />
                   <p className="text-gray-600 mt-2">Click or drag file to upload</p>
                   {formData.image && <p className="text-green-900 mt-2">{formData.image.name}</p>}
                 </label>
+
                 <button type="submit" className="w-full bg-green-900 text-white py-3 rounded-md text-lg font-semibold">
                   {editId ? "Update Product" : "Add Product"}
+
                 </button>
               </form>
             </div>
