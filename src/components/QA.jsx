@@ -29,11 +29,23 @@ const QualityManagement = () => {
     return today.toISOString().split('T')[0]; // Format to YYYY-MM-DD
   };
 
-  // Handle Form Input Changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+    if (name === "batchNumber") {
+      // Convert lowercase letters to uppercase
+      const uppercaseValue = value.toUpperCase();
+
+      // Allow only uppercase letters and numbers
+      const regex = /^[A-Z0-9]*$/;
+      if (!regex.test(uppercaseValue)) return; // Ignore invalid input
+
+      setFormData({ ...formData, [name]: uppercaseValue }); // Update the form state
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
+
 
   // Handle Form Submission
   const handleFormSubmit = async (e) => {
