@@ -30,11 +30,23 @@ const Supplier = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
     if (name === "name" && !/^[A-Za-z\s]*$/.test(value)) {
-      return; // Prevents updating state if invalid characters are entered
+      return; // Prevent invalid characters in name
     }
+
+    if (name === "supplierID") {
+      const uppercaseValue = value.toUpperCase(); // Convert to uppercase
+      const regex = /^[A-Z0-9]*$/; // Allow only uppercase letters and numbers
+      if (!regex.test(uppercaseValue)) return; // Ignore invalid input
+
+      setFormValues((prev) => ({ ...prev, [name]: uppercaseValue }));
+      return;
+    }
+
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
+
 
   const handleSave = async () => {
     try {
