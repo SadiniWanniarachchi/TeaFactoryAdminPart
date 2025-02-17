@@ -67,7 +67,7 @@ const QualityManagement = () => {
           body: JSON.stringify(formData),
         });
       }
-      setFormData({ batchNumber: '', inspectionDate: '', status: 'Passed' });
+      setFormData({ batchNumber: "", inspectionDate: "", status: "" });
       fetchQualityChecks(); // Refresh the list
     } catch (err) {
       console.error('Error submitting form:', err);
@@ -146,9 +146,11 @@ const QualityManagement = () => {
                   name="status"
                   value={formData.status}
                   onChange={handleInputChange}
+                  className={`w-full p-3 border rounded-md ${formData.status ? 'text-black' : 'text-gray-400'}`}
                   placeholder="Status"
-                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+
                 >
+                  <option value="" disabled>Select Status</option>
                   <option value="Passed">Passed</option>
                   <option value="Failed">Failed</option>
                 </select>
