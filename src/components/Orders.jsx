@@ -1,111 +1,114 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { FaEdit, FaTrash, FaSearch, FaClipboardList, FaHourglassHalf, FaTruck, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
-import Sidebar from './Sidebar';
-import Topbar from './Topbar';
+import React, { useState, useEffect, useMemo } from "react";
+import { FaEdit, FaTrash, FaSearch, FaClipboardList, FaHourglassHalf, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import Sidebar from "./Sidebar";
+import Topbar from "./Topbar";
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
-    const [formState, setFormState] = useState({ customerId: '', product: '', quantity: '', status: '', date: '' });
+    const [formState, setFormState] = useState({
+        customerId: "",
+        product: "",
+        quantity: "",
+        status: "Pending",
+        date: "",
+    });
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState(null);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [filterStatus, setFilterStatus] = useState('All');
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filterStatus, setFilterStatus] = useState("All");
     const [errors, setErrors] = useState({});
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/Order');
-                const data = await response.json();
-                setOrders(data);
-            } catch (error) {
-                console.error('Error fetching orders:', error);
+    // Fetch orders from backend API on mount
+    const fetchOrders = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/api/orders");
+            const data = await response.json();
+            if (data.success) {
+                setOrders(data.orders);
             }
-        };
+        } catch (error) {
+            console.error("Error fetching orders:", error);
+        }
+    };
+
+    useEffect(() => {
         fetchOrders();
     }, []);
 
     const addOrder = async (order) => {
         try {
-            const response = await fetch('http://localhost:5000/api/Order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(order),
+            const response = await fetch("http://localhost:5000/api/orders", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(order)
             });
             const data = await response.json();
-            setOrders([...orders, data]);
+            if (data.success) {
+                setOrders([...orders, data.order]);
+            }
         } catch (error) {
-            console.error('Error adding order:', error);
+            console.error("Error adding order:", error);
         }
     };
 
-    const updateOrder = async (id, order) => {
+    const updateOrder = async (id, updatedOrder) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/Order/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(order),
+            const response = await fetch(`http://localhost:5000/api/orders/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedOrder)
             });
             const data = await response.json();
-            setOrders(orders.map((order) => (order._id === id ? data : order)));
+            if (data.success) {
+                setOrders(orders.map(order => (order._id === id ? data.order : order)));
+            }
         } catch (error) {
-            console.error('Error updating order:', error);
+            console.error("Error updating order:", error);
         }
     };
 
     const deleteOrder = async (id) => {
         try {
-            await fetch(`http://localhost:5000/api/Order/${id}`, {
-                method: 'DELETE',
+            const response = await fetch(`http://localhost:5000/api/orders/${id}`, {
+                method: "DELETE"
             });
-            setOrders(orders.filter((order) => order._id !== id));
+            const data = await response.json();
+            if (data.success) {
+                setOrders(orders.filter(order => order._id !== id));
+            }
         } catch (error) {
-            console.error('Error deleting order:', error);
+            console.error("Error deleting order:", error);
         }
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-
         let errorMsg = "";
-
         if (name === "customerId" && !/^[A-Z0-9]*$/.test(value)) {
             errorMsg = "Only capital letters and numbers allowed!";
         }
-
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            [name]: errorMsg,
-        }));
-
-        setFormState((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
+        setErrors(prev => ({ ...prev, [name]: errorMsg }));
+        setFormState(prev => ({ ...prev, [name]: value }));
     };
 
     const handleEdit = (id) => {
-        const order = orders.find((order) => order._id === id);
-        setFormState({ ...order });
-        setEditing(true);
-        setEditId(id);
+        const order = orders.find(order => order._id === id);
+        if (order) {
+            setFormState({ ...order });
+            setEditing(true);
+            setEditId(id);
+        }
     };
 
     const handleAddOrUpdate = () => {
         if (!formState.customerId || !formState.product || formState.quantity <= 0 || !formState.date) {
-            alert('Please fill all fields correctly.');
+            alert("Please fill all fields correctly.");
             return;
         }
-
         if (errors.customerId) {
             alert("Please correct the errors before submitting.");
             return;
         }
-
         if (editing) {
             updateOrder(editId, formState);
             setEditing(false);
@@ -113,14 +116,15 @@ const Orders = () => {
         } else {
             addOrder({ ...formState, quantity: Number(formState.quantity) });
         }
-        setFormState({ customerId: '', product: '', quantity: '', status: 'Pending', date: '' });
+        setFormState({ customerId: "", product: "", quantity: "", status: "Pending", date: "" });
         setErrors({});
     };
 
-    const filteredOrders = orders.filter((order) => {
-        const matchesSearch = order.customerId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const filteredOrders = orders.filter(order => {
+        const matchesSearch =
+            order.customerId.toLowerCase().includes(searchQuery.toLowerCase()) ||
             order.product.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesStatus = filterStatus === 'All' || order.status === filterStatus;
+        const matchesStatus = filterStatus === "All" || order.status === filterStatus;
         return matchesSearch && matchesStatus;
     });
 
@@ -166,10 +170,9 @@ const Orders = () => {
                     {/* Add/Edit Form */}
                     <div className="bg-white p-6 rounded-lg shadow-md mb-10 mt-14">
                         <h2 className="text-xl font-semibold text-gray-700 mb-4">
-                            {editing ? 'Edit Order' : 'Add Order'}
+                            {editing ? "Edit Order" : "Add Order"}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                            {/* Customer ID Field */}
                             <div>
                                 <label htmlFor="customerId" className="block text-sm font-medium text-gray-700 mb-2">
                                     Customer ID
@@ -183,7 +186,9 @@ const Orders = () => {
                                     onChange={handleInputChange}
                                     className="p-3 border rounded w-full"
                                 />
-                                {errors.customerId && <p className="text-red-500 text-sm mt-1">{errors.customerId}</p>}
+                                {errors.customerId && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.customerId}</p>
+                                )}
                             </div>
                             <div>
                                 <label htmlFor="product" className="block text-sm font-medium text-gray-700 mb-2">
@@ -223,25 +228,24 @@ const Orders = () => {
                                     id="status"
                                     value={formState.status}
                                     onChange={handleInputChange}
-                                    className="p-3 border rounded w-full text-black "
+                                    className="p-3 border rounded w-full text-black"
                                 >
-                                    <option value="" disabled hidden>Select Status</option>
                                     <option value="Pending">Pending</option>
                                     <option value="Delivered">Delivered</option>
                                     <option value="Cancelled">Cancelled</option>
                                 </select>
                             </div>
                             <div>
-                                <label htmlFor="date" className="block text-sm font-medium  mb-2">
+                                <label htmlFor="date" className="block text-sm font-medium mb-2">
                                     Date
                                 </label>
                                 <input
                                     type="date"
                                     name="date"
                                     id="date"
-                                    value={new Date(formState.date).toLocaleDateString('en-CA')}
+                                    value={formState.date}
                                     onChange={handleInputChange}
-                                    className="p-3 border rounded w-full text-black "
+                                    className="p-3 border rounded w-full text-black"
                                 />
                             </div>
                         </div>
@@ -270,7 +274,7 @@ const Orders = () => {
                                 <select
                                     value={filterStatus}
                                     onChange={(e) => setFilterStatus(e.target.value)}
-                                    className="p-3 border rounded "
+                                    className="p-3 border rounded"
                                 >
                                     <option value="All">All</option>
                                     <option value="Pending">Pending</option>
@@ -303,17 +307,17 @@ const Orders = () => {
                                         <td className="py-3 px-6">{order.quantity}</td>
                                         <td className="py-3 px-6">
                                             <span
-                                                className={`px-3 py-1 rounded-full text-sm ${order.status === 'Pending'
-                                                    ? 'bg-yellow-100 text-yellow-800'
-                                                    : order.status === 'Delivered'
-                                                        ? 'bg-green-100 text-green-800'
-                                                        : 'bg-red-100 text-red-800'
+                                                className={`px-3 py-1 rounded-full text-sm ${order.status === "Pending"
+                                                        ? "bg-yellow-100 text-yellow-800"
+                                                        : order.status === "Delivered"
+                                                            ? "bg-green-100 text-green-800"
+                                                            : "bg-red-100 text-red-800"
                                                     }`}
                                             >
                                                 {order.status}
                                             </span>
                                         </td>
-                                        <td className="py-3 px-6">{new Date(order.date).toLocaleDateString('en-CA')}</td>
+                                        <td className="py-3 px-6">{new Date(order.date).toLocaleDateString("en-CA")}</td>
                                         <td className="py-3 px-6 flex space-x-3">
                                             <button
                                                 onClick={() => handleEdit(order._id)}
