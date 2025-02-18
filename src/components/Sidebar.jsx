@@ -7,6 +7,7 @@ import { PiCertificateFill } from "react-icons/pi";
 import { BsPersonFillUp } from "react-icons/bs";
 import { FaBasketShopping } from "react-icons/fa6";
 import { MdHelp } from "react-icons/md";
+import { MdLocalShipping } from "react-icons/md";
 
 const Sidebar = ({ activated }) => {
   return (
@@ -67,6 +68,14 @@ const Sidebar = ({ activated }) => {
         </Link>
 
         <Link
+          to="/orders"
+          className={`flex text-xl pb-3 items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] p-3 rounded-md transition-all duration-300 ${activated === "sale" ? "bg-white" : ""
+            }`}
+        >
+          <MdLocalShipping className="text-green-900" /> Order Management
+        </Link>
+
+        <Link
           to="/addproduct"
           className={`${activated === "product" ? "bg-white" : ""
             } flex text-xl items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] rounded-md transition-all duration-300`}
@@ -76,7 +85,7 @@ const Sidebar = ({ activated }) => {
 
         <Link
           to="/help"
-          className={`flex text-xl mt-20 pb-2 items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] p-3 rounded-md transition-all duration-300 ${activated === "help" ? "bg-white" : ""
+          className={`flex text-xl mt-2 pb-2 items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] p-3 rounded-md transition-all duration-300 ${activated === "help" ? "bg-white" : ""
             }`}
         >
           <MdHelp className="text-green-900" /> Help

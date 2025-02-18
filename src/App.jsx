@@ -12,6 +12,7 @@ import Settings from "./components/Settings"; // Add Settings component
 import AddProduct from "./components/AddProduct"; // Add Product component
 import SystemUser from "./components/SystemUser"; // Add SystemUser component
 import ProfilePage from "./components/ProfilePage";
+import Orders from "./components/Orders"; // Add Orders component
 
 
 
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/qa" element={<QA />} />
         <Route path="/sales" element={<Sales />} />
         <Route path="/addproduct" element={<AddProduct />} />
+        <Route path="/orders" element={<Orders />} />
         <Route path="/help" element={<Help />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/ProfilePage" element={<ProfilePage />} />

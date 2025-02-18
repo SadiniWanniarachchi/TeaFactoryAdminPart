@@ -102,7 +102,7 @@ const SystemUser = () => {
                 <Topbar />
                 <div className="p-8">
                     <header className="flex justify-between items-center mb-8">
-                        <h1 className="text-3xl font-bold text-gray-800">User Management</h1>
+                        <h1 className="text-3xl font-bold text-gray-800">User Dashboard</h1>
                         <button
                             className="bg-green-900 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-800 transition-all flex items-center"
                             onClick={() => {
