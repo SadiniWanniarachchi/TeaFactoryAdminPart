@@ -141,7 +141,7 @@ const Orders = () => {
 
     return (
         <div className="flex font-kulim">
-            <Sidebar activated="order" />
+            <Sidebar activated="orders" />
             <div className="flex-1 flex flex-col">
                 <Topbar />
                 <main className="p-6 bg-white flex-1 font-kulim">

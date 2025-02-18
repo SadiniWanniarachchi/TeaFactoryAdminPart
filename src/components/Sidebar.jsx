@@ -69,7 +69,7 @@ const Sidebar = ({ activated }) => {
 
         <Link
           to="/orders"
-          className={`flex text-xl pb-3 items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] p-3 rounded-md transition-all duration-300 ${activated === "sale" ? "bg-white" : ""
+          className={`flex text-xl pb-3 items-center gap-5 px-4 py-2 font-semibold text-black hover:bg-[#ffffff] p-3 rounded-md transition-all duration-300 ${activated === "orders" ? "bg-white" : ""
             }`}
         >
           <MdLocalShipping className="text-green-900" /> Order Management
